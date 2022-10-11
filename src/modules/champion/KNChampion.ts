@@ -1,14 +1,5 @@
-import KNModule from "../KNModule";
 
-class KNChampion extends KNModule {
-
-    constructor() {
-        super({
-            name: 'Champion',
-            type: 'CHAMPION'
-        })
-    }
-
+class KNChampion {
     public load = () => {
 
     }
@@ -19,4 +10,4 @@ class KNChampion extends KNModule {
 
 }
 
-export { KNChampion as ChampionModuleHandler };
+export { KNChampion };

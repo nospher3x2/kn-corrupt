@@ -1,25 +1,32 @@
 import { MessageUtils } from "../../utils/message";
-import KNModule from "../KNModule";
+import { Awareness } from "./awareness/Awareness";
 
-class KNUtility extends KNModule {
+class KNUtility {
 
-    constructor() {
-        super({
-            name: 'Utility',
-            type: 'UTILITY'
-        })
-    }
+    public static main: Menu;
+
+    private static modules = [
+        new Awareness()
+    ]
 
     public load = () => {
         MessageUtils.send("Utility Loaded.", "#c7ed3b", true, true);
-        const utilityMenu = menu.create("kn_utility", "[KN] Utility");
+        KNUtility.main = menu.create("kn_utility", "[KN] Utility");
+
+        for(const module of KNUtility.modules) {
+            module.load(KNUtility.main);
+        }
     }
     
     public unload = () => {
         MessageUtils.send("Utility Unloaded.", "#f0b726", true, true);
         menu.delete("kn_utility");
+
+        for(const module of KNUtility.modules) {
+            module.unload(KNUtility.main);
+        }
     }
 
 }
 
-export { KNUtility as UtilityModuleHandler };
+export { KNUtility  };

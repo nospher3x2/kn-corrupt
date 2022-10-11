@@ -1,20 +1,15 @@
-import { ChampionModuleHandler } from "../champion/KNChampion"
-import { UtilityModuleHandler } from "../utility/KNUtility";
+import { KNChampion } from "../champion/KNChampion"
+import { KNUtility } from "../utility/KNUtility";
 import { MessageUtils } from "../../utils/message";
-import KNModule from "../KNModule";
 
-const championModuleHandler = new ChampionModuleHandler();
-const utilityModuleHandler = new UtilityModuleHandler();
+const championModuleHandler = new KNChampion();
+const utilityModuleHandler = new KNUtility();
 
-class KNCore extends KNModule {
+class KNCore {
 
-    constructor() {
-        super({
-            name: 'Core',
-            type: 'CORE'
-        })
-    }
-    
+    public static VERSION = "1.0.0";
+    public static LAST_UPDATE = "10.11.2022";
+
     public load = () => {
         MessageUtils.send("Core Loaded", "#ffffff", true, false); 
         const main = menu.create("kn", "[KN] Loader");
@@ -25,8 +20,8 @@ class KNCore extends KNModule {
         const championStatus = main.boolean("champion_status", "Champion", true, this.loadChampionModule); 
         championStatus.tooltip("Enable/Disable Champion Module");
         main.spacer("separator_blank", " ");
-        main.spacer("authors", `© ${KNModule.VERSION} - Nospher & Karasu`);
-        main.spacer("update", `Last Update: ${KNModule.LAST_UPDATE}`);
+        main.spacer("authors", `© ${KNCore.VERSION} - Nospher & Karasu`);
+        main.spacer("update", `Last Update: ${KNCore.LAST_UPDATE}`);
         
         if(utilityStatus.value) utilityModuleHandler.load();
         if(championStatus.value) championModuleHandler.load();
