@@ -1,7 +1,4 @@
-export function round(num: number, numDecimalPlaces = 0): number {
-    const roundedNum = tonumber(string.format(`%.${numDecimalPlaces}f`, num));
-    return roundedNum === undefined ? 0 : roundedNum;
-}
+import { round } from "../../../../utils/round";
 
 class PathTracker {
 
@@ -44,7 +41,7 @@ class PathTracker {
         rainbow: menuElement,
     };
 
-    public static TrackedPaths = new Map<number, vec3[]>();
+    public static TrackedPaths = new LuaMap<number, vec3[]>();
 
     /** @noSelf */
     public static onNewPath(sender: aiBaseClient, path: Array<vec3>, isDash: boolean, speed: number) {
@@ -137,7 +134,9 @@ class PathTracker {
         } else {
             cb.remove(cb.newPath, PathTracker.onNewPath);
             cb.remove(cb.draw, PathTracker.onDraw);
-            PathTracker.TrackedPaths.clear();
+            for (const [networkId, path] of PathTracker.TrackedPaths) {
+                PathTracker.TrackedPaths.delete(networkId);
+            }
         }
     }
 

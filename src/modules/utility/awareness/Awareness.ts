@@ -1,12 +1,12 @@
-import { BuffTracker } from "./features/BuffTracker";
 import { PathTracker } from "./features/PathTracker";
+import { WardGrid } from "./features/WardGrid";
 
 class Awareness {
 
     public static main: Menu;
 
     private static modules = [
-        new BuffTracker(),
+        WardGrid,
         PathTracker
     ]
 
