@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "lib": [
+            "esnext"
+        ],
+        "moduleResolution": "node",
+        "types": [
+            "lua-types/jit"
+        ],
+        "strict": true
+    },
+    "tstl": {
+        "luaTarget": "JIT",
+        "luaBundle": "C:/ProgramData/5566263979190835682/Scripts/kn-aio/KNAio.lua",
+        "luaBundleEntry": "index.ts"
+    }
+}

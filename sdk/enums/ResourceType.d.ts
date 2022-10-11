@@ -1,0 +1,15 @@
+declare enum ResourceType {
+Mana,
+Energy,
+None,
+Shield,
+BattleFury,
+DragonFury,
+Rage,
+Heat,
+GnarFury,
+Ferocity,
+BloodWell,
+Wind,
+Other,
+}
