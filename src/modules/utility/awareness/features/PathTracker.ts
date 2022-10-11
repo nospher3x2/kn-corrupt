@@ -17,6 +17,11 @@ class PathTracker {
             textSpacing: menuElement,
         }
         colorsSettings: {
+            headers: {
+                text: Menu,
+                dots: Menu,
+                lines: Menu,
+            },
             allyText: menuElement,
             enemyText: menuElement,
             allyLines: menuElement,
@@ -136,10 +141,17 @@ class PathTracker {
         }
     }
 
+    /** @noSelf */
+    public static callbackColor(menuElementObj: menuElement, value: boolean) {
+        PathTracker.settings.colorsSettings.headers.lines.hide(PathTracker.settings.colorsSettings.rainbow.value ? true : false);
+        PathTracker.settings.colorsSettings.headers.dots.hide(PathTracker.settings.colorsSettings.rainbow.value ? true : false);
+        PathTracker.settings.colorsSettings.headers.text.hide(PathTracker.settings.colorsSettings.rainbow.value ? true : false);
+    }
+
     public static load = (menu: Menu) => {
         const pathMenu = menu.header("pathTracker", "Path Tracker");
         const status = pathMenu.boolean("status", "Enabled", true, PathTracker.callbackMenu);
-        const type = pathMenu.list("type", "Type", ["Name", "Icon", "None"], 1);
+        const type = pathMenu.list("type", "Type", ["Name", "Icon"], 1);
 
         const iconSettings = pathMenu.header("iconSettings", "Icon Settings");
         const iconSize = iconSettings.slider("iconSize", "Icon Size", 25, 10, 50, 1);
@@ -149,11 +161,11 @@ class PathTracker {
         const fontSize = textSettings.slider("fontSize", "Font Size", 20, 5, 50, 1);
         const textSpacing = textSettings.slider("spacing", "Spacing", 20, 5, 100, 1);
 
-        pathMenu.spacer("spacer1", "Should Track");
+        const shouldTrack = pathMenu.header("shouldTrack", "Should Track");
 
-        const me = pathMenu.boolean("me", "Me", true);
-        const ally = pathMenu.boolean("allys", "Allys", true);
-        const enemy = pathMenu.boolean("enemys", "Enemys", true);
+        const me = shouldTrack.boolean("me", "Me", true);
+        const ally = shouldTrack.boolean("allys", "Allys", true);
+        const enemy = shouldTrack.boolean("enemys", "Enemys", true);
 
         pathMenu.spacer("spacer2", "");
 
@@ -167,23 +179,25 @@ class PathTracker {
         const colors = pathMenu.header("colors", "Colors");
 
         colors.spacer("rainbowSpacer", "Rainbow");
-        const rainbow = colors.boolean("rainbow", "Enabled", true);
+        const rainbow = colors.boolean("rainbow", "Enabled", true, PathTracker.callbackColor);
         const rainbowSpeed = colors.slider("rainbowSpeed", "Speed", 2, 1, 15, 1);
 
-        colors.spacer("text", "Text");
+        colors.spacer("blankSpace", " ");
 
-        const allyText = colors.color("allyText", "Ally", graphics.rgba(255, 255, 255, 255));
-        const enemyText = colors.color("enemyText", "Enemy", graphics.rgba(255, 255, 255, 255));
+        const text = colors.header("text", "Text");
 
-        colors.spacer("lines", "Lines");
+        const allyText = text.color("allyText", "Ally", graphics.rgba(255, 255, 255, 255));
+        const enemyText = text.color("enemyText", "Enemy", graphics.rgba(255, 255, 255, 255));
 
-        const allyLine = colors.color("allyLine", "Ally", graphics.rgba(255, 255, 255, 255));
-        const enemyLine = colors.color("enemyLine", "Enemy", graphics.rgba(255, 255, 255, 255));
+        const lines = colors.header("lines", "Lines");
 
-        colors.spacer("dots", "Dots");
+        const allyLine = lines.color("allyLine", "Ally", graphics.rgba(255, 255, 255, 255));
+        const enemyLine = lines.color("enemyLine", "Enemy", graphics.rgba(255, 255, 255, 255));
 
-        const allyDots = colors.color("allyDots", "Ally Dots", graphics.rgba(255, 255, 255, 255));
-        const enemyDots = colors.color("enemyDots", "Enemy Dots", graphics.rgba(255, 255, 255, 255));
+        const dotsC = colors.header("dots", "Dots");
+
+        const allyDots = dotsC.color("allyDots", "Ally", graphics.rgba(255, 255, 255, 255));
+        const enemyDots = dotsC.color("enemyDots", "Dots", graphics.rgba(255, 255, 255, 255));
 
 
         dots.tooltip("Draws a dot (mini circles) in path points.");
@@ -204,6 +218,11 @@ class PathTracker {
                 textSpacing: textSpacing,
             },
             colorsSettings: {
+                headers: {
+                    lines: lines,
+                    dots: dotsC,
+                    text: text,
+                },
                 allyText: allyText,
                 enemyText: enemyText,
                 allyLines: allyLine,
@@ -226,6 +245,11 @@ class PathTracker {
             rainbow,
         }
 
+        if (PathTracker.settings.colorsSettings.rainbow.value) {
+            PathTracker.settings.colorsSettings.headers.lines.hide(true);
+            PathTracker.settings.colorsSettings.headers.dots.hide(true);
+            PathTracker.settings.colorsSettings.headers.text.hide(true);
+        }
 
         //callbacks
         if (PathTracker.settings.enabled.value) {
