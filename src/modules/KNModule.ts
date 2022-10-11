@@ -1,10 +1,13 @@
 export interface IModule {
     name: string;
-    type: 'CHAMPION' | 'UTILITY';
+    type: 'CHAMPION' | 'UTILITY' | 'CORE';
 }
 
-abstract class ScriptModule {
+abstract class KNModule {
 
+    public static VERSION = "1.0.0";
+    public static LAST_UPDATE = "10.11.2022";
+    
     private readonly module: IModule;
 
     constructor(module: IModule) {
@@ -16,4 +19,4 @@ abstract class ScriptModule {
 
 }
 
-export default ScriptModule;
+export default KNModule;
