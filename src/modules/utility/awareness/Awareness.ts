@@ -7,7 +7,7 @@ class Awareness {
 
     private static modules = [
         new BuffTracker(),
-        new PathTracker
+        PathTracker
     ]
 
     public load = (menu: Menu) => {
