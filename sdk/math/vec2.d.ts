@@ -1,9 +1,12 @@
+
+/** @customConstructor vec2 */
 declare class vec2 {
     add( x: vec2 ): vec2
     sub( x: vec2 ): vec2
     mul( x: number ): vec2
     x: number;
     y: number;
+    constructor(x: number, y: number);
     dot( b: vec2 ): number
     cross( b: vec2 ): vec2
     normalize( ): vec2

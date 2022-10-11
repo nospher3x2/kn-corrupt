@@ -1,14 +1,28 @@
-import { MessageUtils } from "../../../utils/message";
+import { BuffTracker } from "./features/BuffTracker";
+import { PathTracker } from "./features/PathTracker";
 
 class Awareness {
 
+    public static main: Menu;
+
+    private static modules = [
+        new BuffTracker(),
+        new PathTracker
+    ]
+
     public load = (menu: Menu) => {
-        const awarenessMenu = menu.header("awareness", "Awareness");
-        awarenessMenu.boolean("status", "Enabled", true);
+        Awareness.main = menu.header("awareness", "Awareness");
+
+        for(const module of Awareness.modules) {
+            module.load(Awareness.main);
+        }
     }
     
     public unload = (menu: Menu) => {
         menu.delete("awareness");
+        for (const module of Awareness.modules) {
+            module.unload(Awareness.main);
+        }
     }
 
 }

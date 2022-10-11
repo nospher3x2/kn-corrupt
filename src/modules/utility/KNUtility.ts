@@ -1,12 +1,20 @@
 import { MessageUtils } from "../../utils/message";
+import { Activator } from "./activator/Activator";
 import { Awareness } from "./awareness/Awareness";
+import { Hud } from "./hud/Hud";
+import { Insanity } from "./insanity/Insanity";
+import { Misc } from "./misc/Misc";
 
 class KNUtility {
 
     public static main: Menu;
 
     private static modules = [
-        new Awareness()
+        new Activator,
+        new Awareness(),
+        new Hud(),
+        new Insanity(),
+        new Misc()
     ]
 
     public load = () => {
