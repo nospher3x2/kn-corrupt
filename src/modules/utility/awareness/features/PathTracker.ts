@@ -172,7 +172,7 @@ class PathTracker {
 
     /** @noSelf */
     private static onDraw() {
-        for (const [networkId, path] of PathTracker.cache) {
+        for (let [networkId, path] of PathTracker.cache) {
             const entity = objManager.getNetworkObject(networkId);
             if (!entity || !entity.isValid) {
                 PathTracker.cache.delete(networkId);
@@ -191,8 +191,8 @@ class PathTracker {
             const fontSize = PathTracker.settings.textSettings.fontSize.value;
 
             for (let i = 0; i < path.length; i++) {
-                let current = path[i];
-                let next = path[i + 1];
+                const current = path[i];
+                const next = path[i + 1];
 
                 if (entity.pos.dist(endpath) < 20) {
                     PathTracker.cache.delete(networkId);
@@ -203,6 +203,8 @@ class PathTracker {
 
                 if (entity.pos.distance(current) < 30) {
                     path[i] = entity.pos;
+                    if (path[i-1] == path[i]) path.splice(i - 1, 1);
+
                     PathTracker.cache.set(networkId, path);
                 }
 
@@ -215,9 +217,9 @@ class PathTracker {
 
             const screenPos = graphics.worldToScreen(endpath);
             const iconSize = PathTracker.settings.iconSettings.size.value
-            
+
             screenPos.y += iconSize / 2;
-            
+
             switch (PathTracker.settings.type.value) {
                 case 0:
                     // getting console error using textSize function.
