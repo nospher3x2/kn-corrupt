@@ -1,4 +1,4 @@
-import { MessageUtils } from "../../utils/message";
+import { MessageUtils } from "../../utils/Message";
 import { Activator } from "./activator/Activator";
 import { Awareness } from "./awareness/Awareness";
 import { Hud } from "./hud/Hud";

@@ -1,6 +1,6 @@
 import { KNChampion } from "../modules/champion/KNChampion"
 import { KNUtility } from "../modules/utility/KNUtility";
-import { MessageUtils } from "../utils/message";
+import { MessageUtils } from "../utils/Message";
 
 const championModuleHandler = new KNChampion();
 const utilityModuleHandler = new KNUtility();

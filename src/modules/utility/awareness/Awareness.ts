@@ -1,4 +1,5 @@
 import { PathTracker } from "./features/PathTracker";
+import { StasisTracker } from "./features/StasisTracker";
 import { WardGrid } from "./features/WardGrid";
 
 class Awareness {
@@ -6,6 +7,7 @@ class Awareness {
     public static main: Menu;
 
     private static modules = [
+        StasisTracker,
         WardGrid,
         PathTracker
     ]

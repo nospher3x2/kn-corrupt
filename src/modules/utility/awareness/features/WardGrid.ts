@@ -1,7 +1,5 @@
 class WardGrid {
 
-    public static CacheNavMesh = new LuaTable<number, NavCell>();
-
     public static settings: {
         status: MenuElement;
     };
@@ -9,47 +7,31 @@ class WardGrid {
     /** @noSelf */
     public static callbackMenu(menuElementObj: MenuElement, value: boolean) {
         if (value) {
-            cb.add(cb.draw, WardGrid.onDraw);
+            cb.add(cb.gameUpdate, WardGrid.onUpdate);
         } else {
-            cb.remove(cb.draw, WardGrid.onDraw);
+            cb.remove(cb.gameUpdate, WardGrid.onUpdate);
         }
     }
 
-    public static onDraw() {
-
-        // const cursorPos = game.cursorPos;
-        // const cellPos = navMesh.getCell(cursorPos);
-
-        // if (!navMesh.isWall(cursorPos)) return;
-
-        //  const mousePos = game.cursorPos;
-        //  const nav = navMesh.getCell(mousePos);
-        //  if(nav && nav.collisionFlags) {
-        // }
-
+    public static onUpdate() {
     }
 
     public static load = (menu: Menu) => {
         const pathMenu = menu.header("wardGrid", "Ward Grid");
         const status = pathMenu.boolean("status", "Enabled", true, WardGrid.callbackMenu);
 
-        for (let i = 0; i < navMesh.maxCells; i++) {
-            const cell = navMesh.getCell(i);
-            WardGrid.CacheNavMesh.set(i, cell);
-        }
-
         WardGrid.settings = {
             status: status
-        }
+        } 
 
         //callbacks
         if (WardGrid.settings.status.value) {
-            cb.add(cb.draw, WardGrid.onDraw);
+            cb.add(cb.gameUpdate, WardGrid.onUpdate);
         }
     }
 
     public static unload = (menu: Menu) => {
-        cb.remove(cb.draw, WardGrid.onDraw);
+        cb.remove(cb.gameUpdate, WardGrid.onUpdate);
         menu.delete("wardGrid");
     }
 

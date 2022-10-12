@@ -1,4 +1,4 @@
-import { round } from "../../../../utils/round";
+import { round } from "../../../../utils/Round";
 
 class PathTracker {
 
@@ -92,7 +92,7 @@ class PathTracker {
         const dotsC = colors.header("dots", "Dots");
 
         const allyDots = dotsC.color("allyDots", "Ally", graphics.rgba(255, 255, 255, 255));
-        const enemyDots = dotsC.color("enemyDots", "Dots", graphics.rgba(255, 255, 255, 255));
+        const enemyDots = dotsC.color("enemyDots", "Enemy", graphics.rgba(255, 255, 255, 255));
 
 
         dots.tooltip("Draws a dot (mini circles) in path points.");
@@ -149,13 +149,13 @@ class PathTracker {
         //callbacks
         if (pathMenu.getByKey("status").get()) {
             cb.add(cb.newPath, PathTracker.onNewPath);
-            cb.add(cb.draw, PathTracker.onDraw);
+            cb.add(cb.gameUpdate, PathTracker.onDraw);
         }
     }
 
     public static unload = (menu: Menu) => {
         cb.remove(cb.newPath, PathTracker.onNewPath);
-        cb.remove(cb.draw, PathTracker.onDraw);
+        cb.remove(cb.gameUpdate, PathTracker.onDraw);
         menu.delete("pathTracker");
     }
 
@@ -174,7 +174,7 @@ class PathTracker {
     private static onDraw() {
         for (let [networkId, path] of PathTracker.cache) {
             const entity = objManager.getNetworkObject(networkId);
-            if (!entity || !entity.isValid) {
+            if (!entity || !entity.isValid || entity.asAIBase.isDead || !entity.isVisible) {
                 PathTracker.cache.delete(networkId);
                 continue;
             }
@@ -279,10 +279,10 @@ class PathTracker {
     private static callbackMenu(menuElementObj: MenuElement, value: boolean) {
         if (value) {
             cb.add(cb.newPath, PathTracker.onNewPath);
-            cb.add(cb.draw, PathTracker.onDraw);
+            cb.add(cb.gameUpdate, PathTracker.onDraw);
         } else {
             cb.remove(cb.newPath, PathTracker.onNewPath);
-            cb.remove(cb.draw, PathTracker.onDraw);
+            cb.remove(cb.gameUpdate, PathTracker.onDraw);
 
             for (const [networkId] of PathTracker.cache) {
                 PathTracker.cache.delete(networkId);
