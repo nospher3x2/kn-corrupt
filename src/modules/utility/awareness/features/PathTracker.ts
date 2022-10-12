@@ -215,15 +215,21 @@ class PathTracker {
 
             const screenPos = graphics.worldToScreen(endpath);
             const iconSize = PathTracker.settings.iconSettings.size.value
-
+            
+            screenPos.y += iconSize / 2;
+            
             switch (PathTracker.settings.type.value) {
                 case 0:
                     // getting console error using textSize function.
                     //const textSize = graphics.textSize(entity.name, PathTracker.settings.nameSettings.fontSize.value);
-                    graphics.drawText2D(entity.name, fontSize, screenPos, textColor);
+                    graphics.drawText2D(entity.name, fontSize, new vec2(screenPos.x - fontSize / 2, screenPos.y - fontSize / 2), textColor);
                     break;
                 case 1:
-                    graphics.drawTexture(PathTracker.settings.iconSettings.squared.value ? entity.asAIBase.iconSquare : entity.asAIBase.iconCircle, new vec2(screenPos.x - iconSize / 2, screenPos.y - iconSize / 2), new vec2(iconSize, iconSize));
+                    graphics.drawTexture(
+                        PathTracker.settings.iconSettings.squared.value ? entity.asAIBase.iconSquare : entity.asAIBase.iconCircle,
+                        new vec2(screenPos.x - iconSize / 2, screenPos.y - iconSize / 2),
+                        new vec2(iconSize, iconSize)
+                    );
                     break;
             }
 
@@ -233,7 +239,6 @@ class PathTracker {
                     graphics.drawCircle(entity.pos, 10, 2, dotColor);
             }
 
-            screenPos.y += iconSize / 2;
 
             if (PathTracker.settings.health.value) {
                 screenPos.y += PathTracker.settings.textSettings.textSpacing.value;
