@@ -1,18 +1,18 @@
 {
-    "compilerOptions": {
-        "target": "esnext",
-        "lib": [
-            "esnext"
-        ],
-        "moduleResolution": "node",
-        "types": [
-            "lua-types/jit"
-        ],
-        "strict": true
-    },
-    "tstl": {
-        "luaTarget": "JIT",
-        "luaBundle": "C:/ProgramData/5834881566955630479/Scripts/kn-aio/KN.lua",
-        "luaBundleEntry": "index.ts"
-    }
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": [
+      "esnext"
+    ],
+    "moduleResolution": "node",
+    "types": [
+      "lua-types/jit"
+    ],
+    "strict": true
+  },
+  "tstl": {
+    "luaTarget": "JIT",
+    "luaBundle": "C:/ProgramData/5566263979190835682/Scripts/kn-aio/KN.lua",
+    "luaBundleEntry": "src/index.ts"
+  }
 }

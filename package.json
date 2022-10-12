@@ -1,18 +1,17 @@
 {
-  "name": "league8-sdk",
+  "name": "kn-corrupt",
   "version": "1.0.0",
   "main": "index.js",
-  "private": true,
+  "repository": "https://github.com/nospher3x2/kn-corrupt.git",
+  "author": "<joooownyy@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "lua-types": "^2.11.0",
-    "typescript-to-lua": "^1.6.3"
+    "lua-types": "^2.13.0",
+    "typescript": "^4.8.4",
+    "typescript-to-lua": "^1.10.1"
   },
   "scripts": {
     "build": "tstl",
     "dev": "tstl --watch"
-  },
-  "dependencies": {
-    "typescript": "^4.7.4"
   }
 }

@@ -1,4 +1,4 @@
-import KNCore from "./src/modules/core/KNCore";
+import Core from "./core/Core";
 
 /* 
     ╗╔═╔╗╔  ╔═╗╦╔═╗
@@ -19,6 +19,5 @@ print(`[KN Loader] Checking for updates...`);
 
 print(`[KN Loader] Authenticated as ${user.data.name} (ID: ${user.data.forumId}).`);
 
-const script = new KNCore();
-cb.add(cb.load, script.load);
-cb.add(cb.unload, script.unload);
+cb.add(cb.load, Core.load);
+cb.add(cb.unload, Core.unload);

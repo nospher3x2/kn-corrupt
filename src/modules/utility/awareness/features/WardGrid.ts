@@ -1,8 +1,6 @@
-import { IndexKind } from "typescript";
-
 class WardGrid {
 
-    public static CacheNavMesh = new LuaMap<number, navCell>();
+    public static CacheNavMesh = new LuaTable<number, navCell>();
 
     public static settings: {
         status: menuElement;
@@ -10,20 +8,19 @@ class WardGrid {
 
     /** @noSelf */
     public static callbackMenu(menuElementObj: menuElement, value: boolean) {
-        if(value) {
+        if (value) {
             cb.add(cb.draw, WardGrid.onDraw);
         } else {
             cb.remove(cb.draw, WardGrid.onDraw);
         }
     }
 
-    /** @noSelf */
     public static onDraw() {
 
-        const cursorPos = game.;
-        const cellPos = navMesh.getCell(cursorPos);
+        // const cursorPos = game.cursorPos;
+        // const cellPos = navMesh.getCell(cursorPos);
 
-        if (!navMesh.isWall(cursorPos)) return;
+        // if (!navMesh.isWall(cursorPos)) return;
 
         //  const mousePos = game.cursorPos;
         //  const nav = navMesh.getCell(mousePos);
@@ -36,8 +33,8 @@ class WardGrid {
         const pathMenu = menu.header("wardGrid", "Ward Grid");
         const status = pathMenu.boolean("status", "Enabled", true, WardGrid.callbackMenu);
 
-        for(let i = 0; i < navMesh.maxCells; i++) {
-            const cell = navMesh.getCell(i);    
+        for (let i = 0; i < navMesh.maxCells; i++) {
+            const cell = navMesh.getCell(i);
             WardGrid.CacheNavMesh.set(i, cell);
         }
 
@@ -47,14 +44,12 @@ class WardGrid {
 
         //callbacks
         if (WardGrid.settings.status.value) {
-            // cb.add(cb.newPath, WardGrid.onNewPath);
             cb.add(cb.draw, WardGrid.onDraw);
         }
     }
 
     public static unload = (menu: Menu) => {
         cb.remove(cb.draw, WardGrid.onDraw);
-        // cb.remove(cb.newPath, WardGrid.onNewPath);
         menu.delete("wardGrid");
     }
 

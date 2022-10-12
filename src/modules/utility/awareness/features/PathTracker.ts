@@ -2,7 +2,7 @@ import { round } from "../../../../utils/round";
 
 class PathTracker {
 
-    public static settings: {
+    private static settings: {
         iconSettings: {
             header: Menu,
             squared: menuElement,
@@ -41,111 +41,7 @@ class PathTracker {
         rainbow: menuElement,
     };
 
-    public static TrackedPaths = new LuaMap<number, vec3[]>();
-
-    /** @noSelf */
-    public static onNewPath(sender: aiBaseClient, path: Array<vec3>, isDash: boolean, speed: number) {
-        if (!sender.isHero || !sender.isVisible || sender.isDead) return;
-
-        if (sender.networkId == player.networkId && !PathTracker.settings.me.value) return;
-        if (sender.isEnemy && !PathTracker.settings.enemy.value) return;
-        if (sender.isAlly && !PathTracker.settings.ally.value) return;
-
-        PathTracker.TrackedPaths.set(sender.networkId, path);
-    }
-
-    /** @noSelf */
-    public static onDraw() {
-        for (const [networkId, path] of PathTracker.TrackedPaths) {
-            const entity = objManager.getNetworkObject(networkId);
-
-            if (!entity.isValid) continue;
-
-
-            let endpath = path[path.length - 1];
-
-            if (entity.pos.dist(endpath) < 10) continue;
-
-            const dotColor = entity.isAlly ? PathTracker.settings.colorsSettings.allyDots.value : PathTracker.settings.colorsSettings.enemyDots.value;
-            const lineColor = entity.isAlly ? PathTracker.settings.colorsSettings.allyLines.value : PathTracker.settings.colorsSettings.enemyLines.value;
-            const textColor = entity.isAlly ? PathTracker.settings.colorsSettings.allyText.value : PathTracker.settings.colorsSettings.enemyText.value;
-            const fontSize = PathTracker.settings.textSettings.fontSize.value;
-
-            for (let i = 0; i < path.length; i++) {
-                let current = path[i];
-                let next = path[i + 1];
-
-                if (entity.pos.dist(endpath) < 20) break;
-
-                if (!next) break;
-
-                if (entity.pos.distance(current) < 30) {
-                    path[i] = entity.pos;
-                    PathTracker.TrackedPaths.set(networkId, path);
-                }
-
-                if (entity.pos.distance(next) > 10 && PathTracker.settings.dots.value) {
-                    PathTracker.settings.rainbow.value ? graphics.drawCircleRainbow(next, 10, 2, 2) : graphics.drawCircle(next, 10, 2, dotColor);
-                }
-
-                PathTracker.settings.rainbow.value ? graphics.drawLineRainbow(current, next, 1, PathTracker.settings.colorsSettings.rainbowSpeed.value) : graphics.drawLine(current, next, 1, lineColor);
-            }
-            const screenPos = graphics.worldToScreen(endpath);
-            const iconSize = PathTracker.settings.iconSettings.size.value
-
-
-            switch (PathTracker.settings.type.value) {
-                case 0:
-                    // getting console error using textSize function.
-                    //const textSize = graphics.textSize(entity.name, PathTracker.settings.nameSettings.fontSize.value);
-                    graphics.drawText2D(entity.name, fontSize, screenPos, textColor);
-                    break;
-                case 1:
-                    graphics.drawTexture(PathTracker.settings.iconSettings.squared.value ? entity.asAIBase.iconSquare : entity.asAIBase.iconCircle, new vec2(screenPos.x - iconSize / 2, screenPos.y - iconSize / 2), new vec2(iconSize, iconSize));
-                    break;
-            }
-            if (PathTracker.settings.dots.value) {
-                PathTracker.settings.rainbow.value ? graphics.drawCircleRainbow(entity.pos, 10, 2, PathTracker.settings.colorsSettings.rainbowSpeed.value) : graphics.drawCircle(entity.pos, 10, 2, dotColor);
-            }
-
-            screenPos.y += iconSize / 2;
-
-            if (PathTracker.settings.health.value) {
-                screenPos.y += PathTracker.settings.textSettings.textSpacing.value;
-                graphics.drawText2D(Math.floor(entity.asAIBase.healthPercent).toString() + "%", fontSize, new vec2(screenPos.x - fontSize / 2, screenPos.y - fontSize / 2), textColor);
-            }
-            if (PathTracker.settings.distance.value) {
-                screenPos.y += PathTracker.settings.textSettings.textSpacing.value;
-                graphics.drawText2D(Math.floor(entity.pos.distance(endpath)).toString() + "m", fontSize, new vec2(screenPos.x - fontSize / 2, screenPos.y - fontSize / 2), textColor);
-            }
-            if (PathTracker.settings.time.value) {
-                screenPos.y += PathTracker.settings.textSettings.textSpacing.value;
-                graphics.drawText2D(round((entity.pos.distance(endpath) / entity.asAIBase.characterIntermediate.moveSpeed), 2).toString() + "s", fontSize, new vec2(screenPos.x - fontSize / 2, screenPos.y - fontSize / 2), textColor);
-            }
-        }
-
-    }
-
-    /** @noSelf */
-    public static callbackMenu(menuElementObj: menuElement, value: boolean) {
-        if(value) {
-            cb.add(cb.newPath, PathTracker.onNewPath);
-            cb.add(cb.draw, PathTracker.onDraw);
-        } else {
-            cb.remove(cb.newPath, PathTracker.onNewPath);
-            cb.remove(cb.draw, PathTracker.onDraw);
-            for (const [networkId, path] of PathTracker.TrackedPaths) {
-                PathTracker.TrackedPaths.delete(networkId);
-            }
-        }
-    }
-
-    /** @noSelf */
-    public static callbackColor(menuElementObj: menuElement, value: boolean) {
-        PathTracker.settings.colorsSettings.headers.lines.hide(PathTracker.settings.colorsSettings.rainbow.value ? true : false);
-        PathTracker.settings.colorsSettings.headers.dots.hide(PathTracker.settings.colorsSettings.rainbow.value ? true : false);
-        PathTracker.settings.colorsSettings.headers.text.hide(PathTracker.settings.colorsSettings.rainbow.value ? true : false);
-    }
+    private static cache = new LuaTable<number, vec3[]>();
 
     public static load = (menu: Menu) => {
         const pathMenu = menu.header("pathTracker", "Path Tracker");
@@ -261,6 +157,136 @@ class PathTracker {
         cb.remove(cb.newPath, PathTracker.onNewPath);
         cb.remove(cb.draw, PathTracker.onDraw);
         menu.delete("pathTracker");
+    }
+
+    /** @noSelf */
+    private static onNewPath(sender: aiBaseClient, path: Array<vec3>, isDash: boolean, speed: number) {
+        if (!sender.isHero || !sender.isVisible || sender.isDead) return;
+
+        if (sender.networkId == player.networkId && !PathTracker.settings.me.value) return;
+        if (sender.isEnemy && !PathTracker.settings.enemy.value) return;
+        if (sender.isAlly && !PathTracker.settings.ally.value) return;
+
+        PathTracker.cache.set(sender.networkId, path);
+    }
+
+    /** @noSelf */
+    private static onDraw() {
+        for (const [networkId, path] of PathTracker.cache) {
+            const entity = objManager.getNetworkObject(networkId);
+            if (!entity || !entity.isValid) {
+                PathTracker.cache.delete(networkId);
+                continue;
+            }
+
+            const endpath = path[path.length - 1];
+            if (entity.pos.dist(endpath) < 10) {
+                PathTracker.cache.delete(networkId);
+                continue;
+            }
+
+            const dotColor = entity.isAlly ? PathTracker.settings.colorsSettings.allyDots.value : PathTracker.settings.colorsSettings.enemyDots.value;
+            const lineColor = entity.isAlly ? PathTracker.settings.colorsSettings.allyLines.value : PathTracker.settings.colorsSettings.enemyLines.value;
+            const textColor = entity.isAlly ? PathTracker.settings.colorsSettings.allyText.value : PathTracker.settings.colorsSettings.enemyText.value;
+            const fontSize = PathTracker.settings.textSettings.fontSize.value;
+
+            for (let i = 0; i < path.length; i++) {
+                let current = path[i];
+                let next = path[i + 1];
+
+                if (entity.pos.dist(endpath) < 20) {
+                    PathTracker.cache.delete(networkId);
+                    break;
+                }
+
+                if (!next) break;
+
+                if (entity.pos.distance(current) < 30) {
+                    path[i] = entity.pos;
+                    PathTracker.cache.set(networkId, path);
+                }
+
+                if (entity.pos.distance(next) > 10 && PathTracker.settings.dots.value) {
+                    PathTracker.settings.rainbow.value ? graphics.drawCircleRainbow(next, 10, 2, 2) : graphics.drawCircle(next, 10, 2, dotColor);
+                }
+
+                PathTracker.settings.rainbow.value ? graphics.drawLineRainbow(current, next, 1, PathTracker.settings.colorsSettings.rainbowSpeed.value) : graphics.drawLine(current, next, 1, lineColor);
+            }
+
+            const screenPos = graphics.worldToScreen(endpath);
+            const iconSize = PathTracker.settings.iconSettings.size.value
+
+            switch (PathTracker.settings.type.value) {
+                case 0:
+                    // getting console error using textSize function.
+                    //const textSize = graphics.textSize(entity.name, PathTracker.settings.nameSettings.fontSize.value);
+                    graphics.drawText2D(entity.name, fontSize, screenPos, textColor);
+                    break;
+                case 1:
+                    graphics.drawTexture(PathTracker.settings.iconSettings.squared.value ? entity.asAIBase.iconSquare : entity.asAIBase.iconCircle, new vec2(screenPos.x - iconSize / 2, screenPos.y - iconSize / 2), new vec2(iconSize, iconSize));
+                    break;
+            }
+
+            if (PathTracker.settings.dots.value) {
+                PathTracker.settings.rainbow.value ?
+                    graphics.drawCircleRainbow(entity.pos, 10, 2, PathTracker.settings.colorsSettings.rainbowSpeed.value) :
+                    graphics.drawCircle(entity.pos, 10, 2, dotColor);
+            }
+
+            screenPos.y += iconSize / 2;
+
+            if (PathTracker.settings.health.value) {
+                screenPos.y += PathTracker.settings.textSettings.textSpacing.value;
+                graphics.drawText2D(`${round(entity.asAIBase.healthPercent)}%`,
+                    fontSize,
+                    new vec2(screenPos.x - fontSize / 2, screenPos.y - fontSize / 2),
+                    textColor
+                );
+            }
+
+            if (PathTracker.settings.distance.value) {
+                screenPos.y += PathTracker.settings.textSettings.textSpacing.value;
+                const distance = entity.pos.distance(endpath)
+                graphics.drawText2D(`${round(distance)}m`,
+                    fontSize,
+                    new vec2(screenPos.x - fontSize / 2, screenPos.y - fontSize / 2),
+                    textColor
+                );
+            }
+
+            if (PathTracker.settings.time.value) {
+                screenPos.y += PathTracker.settings.textSettings.textSpacing.value;
+                const time = entity.pos.distance(endpath) / entity.asAIBase.characterIntermediate.moveSpeed;
+
+                graphics.drawText2D(`${round(time, 2)}s`,
+                    fontSize,
+                    new vec2(screenPos.x - fontSize / 2, screenPos.y - fontSize / 2),
+                    textColor
+                );
+            }
+        }
+    }
+
+    /** @noSelf */
+    private static callbackMenu(menuElementObj: menuElement, value: boolean) {
+        if (value) {
+            cb.add(cb.newPath, PathTracker.onNewPath);
+            cb.add(cb.draw, PathTracker.onDraw);
+        } else {
+            cb.remove(cb.newPath, PathTracker.onNewPath);
+            cb.remove(cb.draw, PathTracker.onDraw);
+
+            for (const [networkId] of PathTracker.cache) {
+                PathTracker.cache.delete(networkId);
+            }
+        }
+    }
+
+    /** @noSelf */
+    private static callbackColor(menuElementObj: menuElement, value: boolean) {
+        PathTracker.settings.colorsSettings.headers.lines.hide(PathTracker.settings.colorsSettings.rainbow.value ? true : false);
+        PathTracker.settings.colorsSettings.headers.dots.hide(PathTracker.settings.colorsSettings.rainbow.value ? true : false);
+        PathTracker.settings.colorsSettings.headers.text.hide(PathTracker.settings.colorsSettings.rainbow.value ? true : false);
     }
 
 }
