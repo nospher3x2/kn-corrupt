@@ -1,4 +1,4 @@
 declare enum CombatType {
-Melee,
-Ranged,
+    Melee,
+    Ranged,
 }

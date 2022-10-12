@@ -1,5 +1,5 @@
 
-declare class objManager {
+declare class ObjectManager {
     player: AIHeroClient;
     myHero: AIHeroClient;
     attackableUnits: ManagerTemplate;
@@ -13,13 +13,7 @@ declare class objManager {
     camps: ManagerTemplate;
 
     /** @noSelf **/
-    findObject( position: Vector3, index: number, handle: number ): GameObject
+    findObject(position: Vector3, index: number, handle: number): GameObject
     /** @noSelf **/
-    getNetworkObject( networkId: number ): GameObject
+    getNetworkObject(networkId: number): GameObject
 }
-
-declare global {
-    const objManager : objManager;
-}
-
-export {};

@@ -16,10 +16,10 @@ const plugin: tstl.Plugin = {
         if (!line.includes("getByKey")) continue;
         const keys = line.split("getByKey")
         for (var y = 0; y < keys.length; y++) {
-          const x = keys[y];
-          if (!(x.includes("(") && x.includes('")'))) continue;
+          const key = keys[y];
+          if (!(key.includes("(") && key.includes('")'))) continue;
 
-          keys[y] = x.replace('("', '').split('")')[0];
+          keys[y] = key.replace('("', '').split('")')[0];
           line = line.replace(/:getByKey\([^)]*\)/, `.${keys[y]}`);
         }
 

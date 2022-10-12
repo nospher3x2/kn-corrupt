@@ -1,4 +1,4 @@
-declare class playerHandle {
+declare class PlayerHandle {
     /**
      * Sets the summoners name to the name value.
      * @param unit The summoner you want to set the summoner name on
@@ -12,8 +12,3 @@ declare class playerHandle {
      */
     restoreSummonerName(unit: AIBaseClient): void
 }
-declare global {
-    const playerHandle: playerHandle;
-}
-
-export {};

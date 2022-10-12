@@ -17,8 +17,12 @@ declare global {
     const keyboard: Keyboard;
     const minimap: TacticalMap;
     const user: User;
-    const permaShowWindow : PermashowWindow;
-    const player : AIHeroClient;
+    const permaShowWindow: PermashowWindow;
+    const player: AIHeroClient;
+    const playerHandle: PlayerHandle;
+    const objManager: ObjectManager;
+    const navMesh : NavMesh;
+    const mec: Mec;
 }
 
 export { };

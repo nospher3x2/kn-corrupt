@@ -9,6 +9,6 @@ declare class Path {
     count: number;
     dashSpeed: number;
 
-    buildPath(to : Vector3, smoothed : boolean) : Vector3[]
-    buildPath(from : Vector3, to : Vector3, smoothed: boolean) : Vector3[] 
+    buildPath(to: Vector3, smoothed: boolean): Vector3[]
+    buildPath(from: Vector3, to: Vector3, smoothed: boolean): Vector3[]
 }

@@ -1,6 +1,9 @@
 
 declare class Graphics {
 
+    public width: number
+    public height: number
+
     /**
      * 
      * @param red 

@@ -1,6 +1,6 @@
 declare class GapCloserArgs {
     type: GapCloserType;
-    target: AttackableUnit|AIBaseClient;
+    target: AttackableUnit | AIBaseClient;
     startTime: number;
     endTime: number;
     startPosition: Vector3;
