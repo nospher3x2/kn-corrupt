@@ -1,14 +1,14 @@
-declare class evade {
+declare class Evade {
     isActive: boolean;
-    spells: evadeSkillshot[];
-    
+    spells: EvadeSkillshot[];
+
     /**
      * 
      * @param position 
      * @returns {boolean} - Whether the position is safe
      */
-    isPositionSafe( position: vec3 ): boolean
-    
+    isPositionSafe(position: Vector3): boolean
+
     /**
      * 
      * @param position 
@@ -17,19 +17,13 @@ declare class evade {
      * @param unit 
      * @returns {boolean} - Whether the path is safe
      */
-    isPathSafe( position: vec3, speed: number, delay: number, unit: aiBaseClient ): boolean
+    isPathSafe(position: Vector3, speed: number, delay: number, unit: AIBaseClient): boolean
     /** @noSelf **/
-    isAboutToHit( time: number, unit: aiBaseClient ): boolean
+    isAboutToHit(time: number, unit: AIBaseClient): boolean
     /** @noSelf **/
-    setEnabled( enabled: boolean ): void
+    setEnabled(enabled: boolean): void
     /** @noSelf **/
-    getEnabled( ): boolean
-    load( ): void
-    unload( ): void
+    getEnabled(): boolean
+    load(): void
+    unload(): void
 }
-
-declare global {
-    const evade : evade;
-}
-
-export {};

@@ -1,10 +1,10 @@
-declare class gapCloserArgs {
+declare class GapCloserArgs {
     type: GapCloserType;
-    target: attackableUnit|aiBaseClient;
+    target: AttackableUnit|AIBaseClient;
     startTime: number;
     endTime: number;
-    startPosition: vec3;
-    endPosition: vec3;
+    startPosition: Vector3;
+    endPosition: Vector3;
     isUnstoppable: boolean;
     isCC: boolean;
 }

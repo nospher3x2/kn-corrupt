@@ -1,15 +1,9 @@
-declare class damageLib {
+declare class DamageLib {
 
     /** @noSelf **/
-    physical( source: aiBaseClient|gameObject, target: attackableUnit, amount: number ): number
+    physical(source: AIBaseClient | GameObject, target: AttackableUnit, amount: number): number
     /** @noSelf **/
-    magical( source: aiBaseClient|gameObject, target: attackableUnit, amount: number ): number
+    magical(source: AIBaseClient | GameObject, target: AttackableUnit, amount: number): number
     /** @noSelf **/
-    autoAttack( source: aiBaseClient, target: attackableUnit ): number
+    autoAttack(source: AIBaseClient, target: AttackableUnit): number
 }
-
-declare global {
-    const damageLib: damageLib;
-}
-
-export {};

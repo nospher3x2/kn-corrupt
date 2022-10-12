@@ -1,6 +1,6 @@
 declare enum SpellType {
-Linear,
-Circular,
-Conical,
-Self,
+    Linear,
+    Circular,
+    Conical,
+    Self,
 }

@@ -5,13 +5,13 @@ class PathTracker {
     private static settings: {
         iconSettings: {
             header: Menu,
-            squared: menuElement,
-            size: menuElement,
+            squared: MenuElement,
+            size: MenuElement,
         }
         textSettings: {
             header: Menu,
-            fontSize: menuElement,
-            textSpacing: menuElement,
+            fontSize: MenuElement,
+            textSpacing: MenuElement,
         }
         colorsSettings: {
             headers: {
@@ -19,29 +19,29 @@ class PathTracker {
                 dots: Menu,
                 lines: Menu,
             },
-            allyText: menuElement,
-            enemyText: menuElement,
-            allyLines: menuElement,
-            enemyLines: menuElement,
-            allyDots: menuElement,
-            enemyDots: menuElement,
-            rainbow: menuElement,
-            rainbowSpeed: menuElement,
+            allyText: MenuElement,
+            enemyText: MenuElement,
+            allyLines: MenuElement,
+            enemyLines: MenuElement,
+            allyDots: MenuElement,
+            enemyDots: MenuElement,
+            rainbow: MenuElement,
+            rainbowSpeed: MenuElement,
         }
         menu: Menu,
-        enabled: menuElement,
-        type: menuElement,
-        me: menuElement,
-        ally: menuElement,
-        enemy: menuElement,
-        dots: menuElement,
-        health: menuElement,
-        distance: menuElement,
-        time: menuElement,
-        rainbow: menuElement,
+        enabled: MenuElement,
+        type: MenuElement,
+        me: MenuElement,
+        ally: MenuElement,
+        enemy: MenuElement,
+        dots: MenuElement,
+        health: MenuElement,
+        distance: MenuElement,
+        time: MenuElement,
+        rainbow: MenuElement,
     };
 
-    private static cache = new LuaTable<number, vec3[]>();
+    private static cache = new LuaTable<number, Vector3[]>();
 
     public static load = (menu: Menu) => {
         const pathMenu = menu.header("pathTracker", "Path Tracker");
@@ -147,7 +147,7 @@ class PathTracker {
         }
 
         //callbacks
-        if (PathTracker.settings.enabled.value) {
+        if (pathMenu.getByKey("status").get()) {
             cb.add(cb.newPath, PathTracker.onNewPath);
             cb.add(cb.draw, PathTracker.onDraw);
         }
@@ -160,10 +160,10 @@ class PathTracker {
     }
 
     /** @noSelf */
-    private static onNewPath(sender: aiBaseClient, path: Array<vec3>, isDash: boolean, speed: number) {
+    private static onNewPath(sender: AIBaseClient, path: Array<Vector3>, isDash: boolean, speed: number) {
         if (!sender.isHero || !sender.isVisible || sender.isDead) return;
 
-        if (sender.networkId == player.networkId && !PathTracker.settings.me.value) return;
+        if (sender.networkId == player.networkId && !PathTracker.settings.menu.getByKey("shouldTrack.me").value) return;
         if (sender.isEnemy && !PathTracker.settings.enemy.value) return;
         if (sender.isAlly && !PathTracker.settings.ally.value) return;
 
@@ -203,7 +203,7 @@ class PathTracker {
 
                 if (entity.pos.distance(current) < 30) {
                     path[i] = entity.pos;
-                    if (path[i-1] == path[i]) path.splice(i - 1, 1);
+                    if (path[i - 1] == path[i]) path.splice(i - 1, 1);
 
                     PathTracker.cache.set(networkId, path);
                 }
@@ -224,13 +224,13 @@ class PathTracker {
                 case 0:
                     // getting console error using textSize function.
                     //const textSize = graphics.textSize(entity.name, PathTracker.settings.nameSettings.fontSize.value);
-                    graphics.drawText2D(entity.name, fontSize, new vec2(screenPos.x - fontSize / 2, screenPos.y - fontSize / 2), textColor);
+                    graphics.drawText2D(entity.name, fontSize, new Vector2(screenPos.x - fontSize / 2, screenPos.y - fontSize / 2), textColor);
                     break;
                 case 1:
                     graphics.drawTexture(
                         PathTracker.settings.iconSettings.squared.value ? entity.asAIBase.iconSquare : entity.asAIBase.iconCircle,
-                        new vec2(screenPos.x - iconSize / 2, screenPos.y - iconSize / 2),
-                        new vec2(iconSize, iconSize)
+                        new Vector2(screenPos.x - iconSize / 2, (screenPos.y - (iconSize / 2)) - iconSize / 2),
+                        new Vector2(iconSize, iconSize)
                     );
                     break;
             }
@@ -246,7 +246,7 @@ class PathTracker {
                 screenPos.y += PathTracker.settings.textSettings.textSpacing.value;
                 graphics.drawText2D(`${round(entity.asAIBase.healthPercent)}%`,
                     fontSize,
-                    new vec2(screenPos.x - fontSize / 2, screenPos.y - fontSize / 2),
+                    new Vector2(screenPos.x - fontSize / 2, screenPos.y - fontSize / 2),
                     textColor
                 );
             }
@@ -254,9 +254,10 @@ class PathTracker {
             if (PathTracker.settings.distance.value) {
                 screenPos.y += PathTracker.settings.textSettings.textSpacing.value;
                 const distance = entity.pos.distance(endpath)
+
                 graphics.drawText2D(`${round(distance)}m`,
                     fontSize,
-                    new vec2(screenPos.x - fontSize / 2, screenPos.y - fontSize / 2),
+                    new Vector2(screenPos.x - fontSize / 2, screenPos.y - fontSize / 2),
                     textColor
                 );
             }
@@ -267,7 +268,7 @@ class PathTracker {
 
                 graphics.drawText2D(`${round(time, 2)}s`,
                     fontSize,
-                    new vec2(screenPos.x - fontSize / 2, screenPos.y - fontSize / 2),
+                    new Vector2(screenPos.x - fontSize / 2, screenPos.y - fontSize / 2),
                     textColor
                 );
             }
@@ -275,7 +276,7 @@ class PathTracker {
     }
 
     /** @noSelf */
-    private static callbackMenu(menuElementObj: menuElement, value: boolean) {
+    private static callbackMenu(menuElementObj: MenuElement, value: boolean) {
         if (value) {
             cb.add(cb.newPath, PathTracker.onNewPath);
             cb.add(cb.draw, PathTracker.onDraw);
@@ -290,7 +291,7 @@ class PathTracker {
     }
 
     /** @noSelf */
-    private static callbackColor(menuElementObj: menuElement, value: boolean) {
+    private static callbackColor(menuElementObj: MenuElement, value: boolean) {
         PathTracker.settings.colorsSettings.headers.lines.hide(PathTracker.settings.colorsSettings.rainbow.value ? true : false);
         PathTracker.settings.colorsSettings.headers.dots.hide(PathTracker.settings.colorsSettings.rainbow.value ? true : false);
         PathTracker.settings.colorsSettings.headers.text.hide(PathTracker.settings.colorsSettings.rainbow.value ? true : false);

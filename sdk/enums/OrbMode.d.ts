@@ -1,8 +1,8 @@
 declare enum OrbMode {
-Combo,
-Harass,
-Laneclear,
-Lasthit,
-Flee,
-None,
+    Combo,
+    Harass,
+    Laneclear,
+    Lasthit,
+    Flee,
+    None,
 }

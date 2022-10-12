@@ -1,5 +1,5 @@
 declare enum GapCloserType {
-Targeted,
-SkillShot,
-Item,
+    Targeted,
+    SkillShot,
+    Item,
 }

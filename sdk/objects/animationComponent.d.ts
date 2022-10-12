@@ -1,6 +1,6 @@
 
-declare class animationComponent {
-    up: vec3;
-    forward: vec3;
-    right: vec3;
+declare class AnimationComponent {
+    up: Vector3;
+    forward: Vector3;
+    right: Vector3;
 }

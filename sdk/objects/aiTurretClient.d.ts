@@ -1,4 +1,4 @@
-declare class aiTurretClient extends aiBaseClient {
+declare class AITurretClient extends AIBaseClient {
     targetHandle: number
-    target: gameObject
+    target: GameObject
 }

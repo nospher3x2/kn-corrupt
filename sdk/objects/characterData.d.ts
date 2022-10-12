@@ -1,4 +1,4 @@
-declare class characterData {
+declare class CharacterData {
     skinHash: number;
     skinName: string;
 }

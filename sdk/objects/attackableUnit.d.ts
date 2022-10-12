@@ -1,4 +1,4 @@
-declare class attackableUnit extends gameObject {
+declare class AttackableUnit extends GameObject {
     resource: number;
     maxResource: number;
     mana: number;
@@ -24,16 +24,16 @@ declare class attackableUnit extends gameObject {
     incomingHealingEnemy: number;
     stopShieldFade: number;
     isDead: boolean;
-    owner: gameObject;
+    owner: GameObject;
     isInvulnerable: boolean;
     isMagicImmune: boolean;
     isPhysicalImmune: boolean;
     healthPercent: number;
     resourcePercent: number;
     secondaryResourcePercent: number;
-    path: path;
+    path: Path;
     isZombie: boolean;
 
-    addGlow( color: number, thickness: number, blur: number ): boolean
-    isValidTarget( range: number, onlyEnemy: boolean, from: vec3 ): boolean
+    addGlow(color: number, thickness: number, blur: number): boolean
+    isValidTarget(range: number, onlyEnemy: boolean, from: Vector3): boolean
 }

@@ -1,10 +1,10 @@
-declare class pred {
+declare class Prediction {
     /** @noSelf **/
-    getPrediction(...args: [target: aiBaseClient, input: predSpell, return_always: boolean] | [target: aiBaseClient, input: predSpell]): predResult;
+    getPrediction(...args: [target: AIBaseClient, input: predSpell, return_always: boolean] | [target: AIBaseClient, input: predSpell]): PredResult;
     /** @noSelf **/
-    positionAfterTime( target: aiBaseClient, time: number ): vec3
+    positionAfterTime(target: AIBaseClient, time: number): Vector3
     /** @noSelf **/
-    findSpellCollisions( target: aiBaseClient, input: predSpell, castFrom: vec3, endPosition: vec3, time: number ): aiBaseClient[]
+    findSpellCollisions(target: AIBaseClient, input: predSpell, castFrom: Vector3, endPosition: Vector3, time: number): AIBaseClient[]
 
     /**
      * 
@@ -12,14 +12,14 @@ declare class pred {
      * @param time - Time in seconds
      * @returns {boolean} - true if target is CC'd in given seconds in the future
      */
-    isCrowdControlled(target: aiBaseClient, time: number): boolean
+    isCrowdControlled(target: AIBaseClient, time: number): boolean
 
     /**
      * 
      * @param target - Your target
      * @returns {number} - time the target is CC'd for
      */
-    getCrowdControlledTime(target: aiBaseClient): number
+    getCrowdControlledTime(target: AIBaseClient): number
 
     /**
      * Loads the prediction library
@@ -32,12 +32,6 @@ declare class pred {
     unload(): void
 
 }
-
-declare global {
-    const pred: pred;
-}
-
-export {};
 
 declare class predSpell {
     delay?: number;
@@ -54,7 +48,7 @@ declare class predSpell {
         extraRadius?: number
         flags?: CollisionFlags
     };
-    from?: vec3;
-    rangeFrom?: vec3;
+    from?: Vector3;
+    rangeFrom?: Vector3;
     boundingRadiusMod?: boolean;
 }

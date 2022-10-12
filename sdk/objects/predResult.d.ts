@@ -1,11 +1,11 @@
 
 
-declare class predResult {
-    data: predData;
-    castPosition: vec3;
+declare class PredResult {
+    data: PredData;
+    castPosition: Vector3;
     timeToTarget: number;
     travelDistance: number;
     distance: number;
     hitChance: HitChance;
-    collidedObjects: gameObject[];
+    collidedObjects: GameObject[];
 }

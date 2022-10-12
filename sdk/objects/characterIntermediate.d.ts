@@ -1,4 +1,4 @@
-declare class characterIntermediate {
+declare class CharacterIntermediate {
     percentCooldownMod: number;
     abilityHasteMod: number;
     passiveCooldownEndTime: number;

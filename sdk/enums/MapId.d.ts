@@ -1,4 +1,4 @@
 declare enum MapId {
-SummonersRift,
-HowlingAbyss,
+    SummonersRift,
+    HowlingAbyss,
 }

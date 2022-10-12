@@ -1,12 +1,12 @@
-declare class gameObject {
+declare class GameObject {
     handle: number;
     team: number;
     name: string;
     networkId: number;
-    minBoundingBox: vec3;
-    maxBoundingBox: vec3;
-    position: vec3;
-    pos: vec3;
+    minBoundingBox: Vector3;
+    maxBoundingBox: Vector3;
+    position: Vector3;
+    pos: Vector3;
     isVisible: boolean;
     isAttackableUnit: boolean;
     isHero: boolean;
@@ -17,13 +17,13 @@ declare class gameObject {
     isNexus: boolean;
     isInhib: boolean;
     isEffectEmitter: boolean;
-    asAttackableUnit: attackableUnit;
-    asHero: aiHeroClient;
-    asMinion: aiMinionClient;
-    asMissile: missileClient;
-    asAIBase: aiBaseClient;
-    asTurret: aiTurretClient;
-    asCamp: neutralMinionCamp;
+    asAttackableUnit: AttackableUnit;
+    asHero: AIHeroClient;
+    asMinion: AIMinionClient;
+    asMissile: MissileClient;
+    asAIBase: AIBaseClient;
+    asTurret: AITurretClient;
+    asCamp: NeutralMinionCamp;
     boundingRadius: number;
     isOnScreen: boolean;
     isEnemy: boolean;
@@ -31,6 +31,6 @@ declare class gameObject {
     objFlags: number;
     isValid: boolean;
 
-    isType( type: GameObjectType ): boolean
-    distance( x: gameObject|vec3 ): number
+    isType(type: GameObjectType): boolean
+    distance(x: GameObject | Vector3): number
 }

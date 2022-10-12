@@ -1,21 +1,21 @@
 
 declare class objManager {
-    player: aiHeroClient;
-    myHero: aiHeroClient;
-    attackableUnits: managerTemplate;
-    buildings: managerTemplate;
-    inhibs: managerTemplate;
-    aiBases: managerTemplate;
-    turrets: managerTemplate;
-    minions: managerTemplate;
-    heroes: managerTemplate;
-    missiles: managerTemplate;
-    camps: managerTemplate;
+    player: AIHeroClient;
+    myHero: AIHeroClient;
+    attackableUnits: ManagerTemplate;
+    buildings: ManagerTemplate;
+    inhibs: ManagerTemplate;
+    aiBases: ManagerTemplate;
+    turrets: ManagerTemplate;
+    minions: ManagerTemplate;
+    heroes: ManagerTemplate;
+    missiles: ManagerTemplate;
+    camps: ManagerTemplate;
 
     /** @noSelf **/
-    findObject( position: vec3, index: number, handle: number ): gameObject
+    findObject( position: Vector3, index: number, handle: number ): GameObject
     /** @noSelf **/
-    getNetworkObject( networkId: number ): gameObject
+    getNetworkObject( networkId: number ): GameObject
 }
 
 declare global {

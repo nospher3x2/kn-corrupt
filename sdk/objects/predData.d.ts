@@ -1,8 +1,8 @@
 
-declare class predData {
-    object: aiBaseClient;
-    position: vec3;
-    direction: vec3;
+declare class PredData {
+    object: AIBaseClient;
+    position: Vector3;
+    direction: Vector3;
     simulatedTime: number;
     remainingTime: number;
     isMoving: boolean;

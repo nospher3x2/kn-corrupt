@@ -1,12 +1,12 @@
 
-declare class missileClient extends gameObject{
+declare class MissileClient extends GameObject {
     casterHandle: number;
     startPosition: number;
     endPosition: number;
     targetHandle: number;
-    target: gameObject;
-    caster: gameObject;
+    target: GameObject;
+    caster: GameObject;
     missileSpeed: number;
-    spellData: spellData;
-    movement: missileMovement;
+    spellData: SpellData;
+    movement: MissileMovement;
 }

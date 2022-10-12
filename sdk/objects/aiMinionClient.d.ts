@@ -1,2 +1,2 @@
-declare class aiMinionClient extends aiBaseClient  {
+declare class AIMinionClient extends AIBaseClient  {
 }

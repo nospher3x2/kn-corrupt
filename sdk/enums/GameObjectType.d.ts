@@ -1,8 +1,8 @@
 declare enum GameObjectType {
-AIBase,
-Minion,
-Hero,
-Turret,
-Missile,
-ObjectMarker,
+    AIBase,
+    Minion,
+    Hero,
+    Turret,
+    Missile,
+    ObjectMarker,
 }

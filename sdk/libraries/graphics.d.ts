@@ -1,6 +1,6 @@
 
-declare class graphics {
-    
+declare class Graphics {
+
     /**
      * 
      * @param red 
@@ -9,7 +9,7 @@ declare class graphics {
      * @param alpha 
      * @returns {number} - Color
      */
-    rgba( red: number, green: number, blue: number, alpha: number ): number
+    rgba(red: number, green: number, blue: number, alpha: number): number
 
     /**
      * 
@@ -19,60 +19,54 @@ declare class graphics {
      * @param blue 
      * @returns {number} - Color
      */
-    argb( alpha: number, red: number, green: number, blue: number ): number
-    
+    argb(alpha: number, red: number, green: number, blue: number): number
+
     /**
      * 
      * @param text
      * @param fontSize
-     * @returns {vec2} - Size
+     * @returns {Vector2} - Size
      */
-    textSize( text: string, fontSize: number ): vec2
+    textSize(text: string, fontSize: number): Vector2
 
     /** @noSelf **/
-    drawCircle( position: vec3, radius: number, thickness: number, color: number ): void
+    drawCircle(position: Vector3, radius: number, thickness: number, color: number): void
     /** @noSelf **/
-    drawCircleRainbow( position: vec3, radius: number, thickness: number, speed: number ): void
+    drawCircleRainbow(position: Vector3, radius: number, thickness: number, speed: number): void
     /** @noSelf **/
-    drawCircle2D( position: vec2, radius: number, thickness: number, color: number ): void
+    drawCircle2D(position: Vector2, radius: number, thickness: number, color: number): void
     /** @noSelf **/
-    drawCircleMinimap( position: vec3, radius: number, thickness: number, color: number ): void
+    drawCircleMinimap(position: Vector3, radius: number, thickness: number, color: number): void
     /** @noSelf **/
-    drawCircleMinimap2D( position: vec2, radius: number, thickness: number, color: number ): void
+    drawCircleMinimap2D(position: Vector2, radius: number, thickness: number, color: number): void
     /** @noSelf **/
-    drawCircleFilled( position: vec3, radius: number, color: number ): void
+    drawCircleFilled(position: Vector3, radius: number, color: number): void
     /** @noSelf **/
-    drawCircleFilled2D( position: vec2, radius: number, color: number ): void
+    drawCircleFilled2D(position: Vector2, radius: number, color: number): void
     /** @noSelf **/
-    drawText( text: string, fontSize: number, position: vec3, color: number ): void
+    drawText(text: string, fontSize: number, position: Vector3, color: number): void
     /** @noSelf **/
-    drawText2D( text: string, fontSize: number, position: vec2, color: number ): void
+    drawText2D(text: string, fontSize: number, position: Vector2, color: number): void
     /** @noSelf **/
-    drawTextStroke( text: string, fontSize: number, position: vec3, color: number ): void
+    drawTextStroke(text: string, fontSize: number, position: Vector3, color: number): void
     /** @noSelf **/
-    drawTextStroke2D( text: string, fontSize: number, position: vec2, color: number ): void
+    drawTextStroke2D(text: string, fontSize: number, position: Vector2, color: number): void
     /** @noSelf **/
-    drawLine( start: vec3, end_pos: vec3, thickness: number, color: number ): void
+    drawLine(start: Vector3, end_pos: Vector3, thickness: number, color: number): void
     /** @noSelf **/
-    drawLineRainbow( start: vec3, end_pos: vec3, thickness: number, speed: number ): void
+    drawLineRainbow(start: Vector3, end_pos: Vector3, thickness: number, speed: number): void
     /** @noSelf **/
-    drawLine2D( start: vec2, end_pos: vec2, thickness: number, color: number ): void
+    drawLine2D(start: Vector2, end_pos: Vector2, thickness: number, color: number): void
     /** @noSelf **/
-    drawRectangle2D( position: vec2, width: number, height: number, color: number ): void
+    drawRectangle2D(position: Vector2, width: number, height: number, color: number): void
     /** @noSelf **/
-    drawTriangle2D( p1: vec2, p2: vec2, p3: vec2, thickness: number, color: number ): void
+    drawTriangle2D(p1: Vector2, p2: Vector2, p3: Vector2, thickness: number, color: number): void
     /** @noSelf **/
-    drawTexture( tx: any, position: vec2, size: vec2 ): void
+    drawTexture(tx: any, position: Vector2, size: Vector2): void
     /** @noSelf **/
-    drawTextureUV( tx: any, position: vec2, size: vec2, uvMin: vec2, uvMax: vec2, color: number ): void
+    drawTextureUV(tx: any, position: Vector2, size: Vector2, uvMin: Vector2, uvMax: Vector2, color: number): void
     /** @noSelf **/
-    createTexture( path: string ): any
+    createTexture(path: string): any
     /** @noSelf **/
-    worldToScreen( worldPosition: vec3 ): vec2
+    worldToScreen(worldPosition: Vector3): Vector2
 }
-
-declare global {
-    const graphics : graphics;
-}
-
-export {};

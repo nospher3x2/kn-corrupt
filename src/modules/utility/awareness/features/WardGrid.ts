@@ -1,13 +1,13 @@
 class WardGrid {
 
-    public static CacheNavMesh = new LuaTable<number, navCell>();
+    public static CacheNavMesh = new LuaTable<number, NavCell>();
 
     public static settings: {
-        status: menuElement;
+        status: MenuElement;
     };
 
     /** @noSelf */
-    public static callbackMenu(menuElementObj: menuElement, value: boolean) {
+    public static callbackMenu(menuElementObj: MenuElement, value: boolean) {
         if (value) {
             cb.add(cb.draw, WardGrid.onDraw);
         } else {

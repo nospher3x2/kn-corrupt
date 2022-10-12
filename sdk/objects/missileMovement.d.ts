@@ -1,8 +1,8 @@
 
-declare class missileMovement {
-    owner: missileClient;
-    startPosition: vec3;
-    endPosition: vec3;
+declare class MissileMovement {
+    owner: MissileClient;
+    startPosition: Vector3;
+    endPosition: Vector3;
     speed: number;
     targetHandle: number;
 }

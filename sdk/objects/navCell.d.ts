@@ -1,6 +1,6 @@
 
-declare class navCell {
+declare class NavCell {
     collisionFlags: number;
-    position: vec3;
+    position: Vector3;
     index: number;
 }

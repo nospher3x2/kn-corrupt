@@ -1,4 +1,7 @@
 {
+  "exclude": [
+    "./plugins/*"
+  ],
   "compilerOptions": {
     "target": "esnext",
     "lib": [
@@ -8,11 +11,16 @@
     "types": [
       "lua-types/jit"
     ],
-    "strict": true
+    "strict": true,
   },
   "tstl": {
     "luaTarget": "JIT",
     "luaBundle": "C:/ProgramData/5566263979190835682/Scripts/kn-aio/KN.lua",
-    "luaBundleEntry": "src/index.ts"
+    "luaBundleEntry": "src/index.ts",
+    "luaPlugins": [
+      {
+        "name": "./plugins/FixMenuByKey.ts"
+      },
+    ]
   }
 }

@@ -1,6 +1,6 @@
 declare enum TeleportType {
-Null,
-Recall,
-SuperRecall,
-Teleport,
+    Null,
+    Recall,
+    SuperRecall,
+    Teleport,
 }

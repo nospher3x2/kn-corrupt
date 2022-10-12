@@ -1,4 +1,4 @@
 declare enum RotationDirection {
-Clockwise,
-CounterClockwise,
+    Clockwise,
+    CounterClockwise,
 }

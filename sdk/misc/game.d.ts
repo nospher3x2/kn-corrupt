@@ -1,28 +1,22 @@
-declare class game {
-    cursorPos: vec3;
-    cameraPos: vec3;
+declare class Game {
+    cursorPos: Vector3;
+    cameraPos: Vector3;
     cameraHeight: number;
     isWindowFocused: boolean;
     latency: number;
     time: number;
     tickID: number;
-    hoveredObj: gameObject;
+    hoveredObj: GameObject;
     mapID: MapId;
     mode: GameMode;
     state: GameState;
-    resolution: vec2;
+    resolution: Vector2;
     id: number
 
     /** @noSelf **/
-    overrideOrder( overridable_obj: vec3|attackableUnit ): void
+    overrideOrder(overridable_obj: Vector3 | AttackableUnit): void
     /** @noSelf **/
-    showPing( position: vec3, type: PingType, playSound: boolean, target?: gameObject, sender?: gameObject ): boolean
+    showPing(position: Vector3, type: PingType, playSound: boolean, target?: GameObject, sender?: GameObject): boolean
     /** @noSelf **/
-    sendPing( position: vec3, type: PingType ): boolean
+    sendPing(position: Vector3, type: PingType): boolean
 }
-
-declare global {
-    const game: game;
-}
-
-export {};

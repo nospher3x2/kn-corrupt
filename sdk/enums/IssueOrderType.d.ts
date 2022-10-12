@@ -1,4 +1,4 @@
 declare enum IssueOrderType {
-Attack,
-Move,
+    Attack,
+    Move,
 }

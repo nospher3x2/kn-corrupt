@@ -9,17 +9,17 @@ declare class navMesh {
     /** @noSelf **/
     getTerrainHeight( x: number, y: number ): number
     /** @noSelf **/
-    isBush( position: vec3 ): boolean
+    isBush( position: Vector3 ): boolean
     /** @noSelf **/
-    isWall( position: vec3 ): boolean
+    isWall( position: Vector3 ): boolean
     /** @noSelf **/
-    isBuilding( position: vec3 ): boolean
+    isBuilding( position: Vector3 ): boolean
     /** @noSelf **/
-    isInFOW( position: vec3 ): boolean
+    isInFOW( position: Vector3 ): boolean
     /** @noSelf **/
-    getCell(position : vec3) : navCell
+    getCell(position : Vector3) : NavCell
     /** @noSelf **/
-    getCell(index : number) : navCell
+    getCell(index : number) : NavCell
 }
 
 declare global {

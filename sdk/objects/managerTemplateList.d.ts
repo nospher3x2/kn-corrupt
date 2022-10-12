@@ -1,4 +1,4 @@
-declare class managerTemplateList {
+declare class ManagerTemplateList {
     count: number;
-    list: attackableUnit[] |aiBaseClient[] | gameObject[];
+    list: AttackableUnit[] |AIBaseClient[] | GameObject[];
 }

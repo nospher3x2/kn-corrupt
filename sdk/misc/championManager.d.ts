@@ -1,10 +1,4 @@
-declare class championManager {
-    champions: champion[];
-    getChampion( championName: string ): champion
+declare class ChampionManager {
+    champions: Champion[];
+    getChampion(championName: string): Champion
 }
-
-declare global {
-    const championManager : championManager; 
-}
-
-export { };

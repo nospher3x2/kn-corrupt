@@ -1,6 +1,7 @@
 
-declare class projectionInfo {
+/** @customConstructor projectionInfo */
+declare class ProjectionInfo {
     isOnSegment: boolean;
-    segmentPoint: vec2;
-    linePoint: vec2;
+    segmentPoint: Vector2;
+    linePoint: Vector2;
 }

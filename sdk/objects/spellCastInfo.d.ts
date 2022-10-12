@@ -1,17 +1,17 @@
-declare class spellCastInfo {
+declare class SpellCastInfo {
     level: number;
-    startPosition: vec3;
-    startPos: vec3;
-    endPosition: vec3;
-    endPos: vec3;
+    startPosition: Vector3;
+    startPos: Vector3;
+    endPosition: Vector3;
+    endPos: Vector3;
     castDelay: number;
     delay: number;
     isBasicAttack: boolean;
     isSpecialAttack: boolean;
     slot: number;
     hasTarget: boolean;
-    owner: gameObject;
-    target: gameObject;
+    owner: GameObject;
+    target: GameObject;
     castEndTime: number;
     name: string;
     hash: number;

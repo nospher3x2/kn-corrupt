@@ -1,6 +1,6 @@
 
-declare class mecCircle {
-    center: vec3;
+declare class MecCircle {
+    center: Vector3;
     radius: number;
     radiusSqr: number;
 }

@@ -1,14 +1,14 @@
 
-declare class path {
+declare class Path {
     isActive: boolean;
     isDashing: boolean;
-    serverPosition: vec3;
-    serverVelocity: vec3;
-    points: vec3[];
+    serverPosition: Vector3;
+    serverVelocity: Vector3;
+    points: Vector3[];
     index: number;
     count: number;
     dashSpeed: number;
 
-    buildPath(to : vec3, smoothed : boolean) : vec3[]
-    buildPath(from : vec3, to : vec3, smoothed: boolean) : vec3[] 
+    buildPath(to : Vector3, smoothed : boolean) : Vector3[]
+    buildPath(from : Vector3, to : Vector3, smoothed: boolean) : Vector3[] 
 }

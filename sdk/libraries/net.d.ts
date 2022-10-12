@@ -1,9 +1,9 @@
-declare class net {
+declare class HTTP {
     /**
      * Send a GET request to the specified URL.
      * @param url - The URL to send the get request to.
      */
-    get(url: string): netResponse
+    get(url: string): HttpResponse
 
     /**
      * Sends a POST request to the specified URL.
@@ -11,7 +11,7 @@ declare class net {
      * @param body - The body of the post request.
      * @param header - The headers to send along with the request.
      */
-    post(url: string, body: string, header: string): netResponse | null
+    post(url: string, body: string, header: string): HttpResponse | null
 
     /**
      * Asynchronously posts data to the specified URL.
@@ -30,9 +30,3 @@ declare class net {
      */
     autoUpdateDirect(dataUrl: string, fileUrl: string, callback?: (updated: boolean) => void): void
 }
-
-declare global {
-    const net : net
-}
-
-export {}

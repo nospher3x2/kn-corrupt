@@ -1,4 +1,4 @@
 declare enum SpellRangeType {
-Center,
-Edge,
+    Center,
+    Edge,
 }

@@ -1,8 +1,8 @@
 
-declare class managerTemplate {
+declare class ManagerTemplate {
     count: number;
-    list: LuaTable<number, aiBaseClient>;
-    enemies: managerTemplateList;
-    allies: managerTemplateList;
-    neutrals: managerTemplateList;
+    list: LuaTable<number, AIBaseClient>;
+    enemies: ManagerTemplateList;
+    allies: ManagerTemplateList;
+    neutrals: ManagerTemplateList;
 }

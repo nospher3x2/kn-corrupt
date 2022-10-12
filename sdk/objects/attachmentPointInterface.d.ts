@@ -1,4 +1,4 @@
 
-declare class attachmentPointInterface {
-    target: gameObject;
+declare class AttachmentPointInterface {
+    target: GameObject;
 }

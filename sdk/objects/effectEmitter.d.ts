@@ -1,5 +1,5 @@
-declare class effectEmitter {
-    animationComponent: animationComponent;
-    attachedObject: aiBaseClient;
+declare class EffectEmitter {
+    animationComponent: AnimationComponent;
+    attachedObject: AIBaseClient;
 }
 

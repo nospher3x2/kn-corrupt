@@ -1,4 +1,4 @@
-declare class spellObject {
+declare class SpellObject {
     level: number;
     cooldown: number;
     readyTime: number;
@@ -13,5 +13,5 @@ declare class spellObject {
     state: number;
     mana: number;
     icon: any;
-    resouce: spellDataResource
+    resouce: SpellDataResource
 }

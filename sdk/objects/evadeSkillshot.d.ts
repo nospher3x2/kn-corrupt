@@ -1,13 +1,13 @@
-declare class evadeSkillshot {
-    start: vec3;
-    end: vec3;
-    missilePosition: vec3;
+declare class EvadeSkillshot {
+    start: Vector3;
+    end: Vector3;
+    missilePosition: Vector3;
     spellName: string;
-    polygon: vec3[];
+    polygon: Vector3[];
     range: number;
     radius: number;
     speed: number;
-    isAboutToHit( time: number, unit: aiBaseClient ): boolean
-    isSafe( position: vec3 ): boolean
+    isAboutToHit(time: number, unit: AIBaseClient): boolean
+    isSafe(position: Vector3): boolean
 }
 

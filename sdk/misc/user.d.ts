@@ -1,10 +1,4 @@
-declare class user {
-    data: userData
+declare class User {
+    data: UserData
     hwid: number
 }
-
-declare global {
-    const user: user;
-}
-
-export {};

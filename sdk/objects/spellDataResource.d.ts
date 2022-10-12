@@ -1,4 +1,4 @@
-declare class spellDataResource {
+declare class SpellDataResource {
     flags: number
     affectsTypeFlags: number
     affectsStatusFlag: number
@@ -14,7 +14,7 @@ declare class spellDataResource {
     castConeAngle: number
     castConeDistance: number
     missileSpeed: number
-    missleWidth: number
+    missileWidth: number
     lineDragLength: number
     haveHitBone: boolean
     hitBoneName: string
@@ -36,14 +36,14 @@ declare class spellDataResource {
      */
     castRangeDisplayOverride(level: number): number
 
-     /**
-     * @param level - current level of the spell - 1
-     */
+    /**
+    * @param level - current level of the spell - 1
+    */
     castRadius(level: number): number
 
-     /**
-     * @param level - current level of the spell - 1
-     */
+    /**
+    * @param level - current level of the spell - 1
+    */
     resourceCost(level: number): number
 }
 

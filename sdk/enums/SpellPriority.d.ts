@@ -1,5 +1,5 @@
 declare enum SpellPriority {
-None,
-Low,
-High,
+    None,
+    Low,
+    High,
 }

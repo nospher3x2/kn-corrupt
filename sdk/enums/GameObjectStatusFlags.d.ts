@@ -1,6 +1,6 @@
 declare enum GameObjectStatusFlags {
-Invulnerable,
-Undying,
-MagicImmune,
-PhysicalImmune,
+    Invulnerable,
+    Undying,
+    MagicImmune,
+    PhysicalImmune,
 }

@@ -1,5 +1,5 @@
 declare enum SpellCollisionType {
-None,
-Soft,
-Hard,
+    None,
+    Soft,
+    Hard,
 }

@@ -13,6 +13,7 @@ class Core {
     public static load = () => {
         MessageUtils.send("Core Loaded", "#ffffff", true, false);
         const main = menu.create("kn", "[KN] Loader");
+        
         main.spacer("separator1", "[KN] Core ")
 
         const utilityStatus = main.boolean("utility_status", "Utility", true, Core.loadUtilityModule);
@@ -35,12 +36,12 @@ class Core {
     }
 
     /** @noSelf */
-    private static loadUtilityModule(menuElementObj: menuElement, value: boolean) {
+    private static loadUtilityModule(menuElementObj: MenuElement, value: boolean) {
         value ? utilityModuleHandler.load() : utilityModuleHandler.unload();
     }
 
     /** @noSelf */
-    private static loadChampionModule(menuElementObj: menuElement, value: boolean) {
+    private static loadChampionModule(menuElementObj: MenuElement, value: boolean) {
         value ? championModuleHandler.load() : championModuleHandler.unload();
     }
 

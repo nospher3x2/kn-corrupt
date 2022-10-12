@@ -1,4 +1,4 @@
-declare class cb {
+declare class Callback {
     load: number;
     unload: number;
     wndproc: number;
@@ -32,15 +32,9 @@ declare class cb {
     gameExit: number;
 
     /** @noSelf **/
-    add( callbackId: number, func: Function ): void
+    add(callbackId: number, func: Function): void
     /** @noSelf **/
-    remove( callbackId: number, func: Function ): void
+    remove(callbackId: number, func: Function): void
     /** @noSelf **/
-    trigger( callbackId: number, ...args : any): void
+    trigger(callbackId: number, ...args: any): void
 }
-
-declare global {
-    const cb : cb;
-}
-
-export { };

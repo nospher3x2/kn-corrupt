@@ -1,10 +1,4 @@
-declare class permaShowWindow {
+declare class PermashowWindow {
     visible: boolean;
-    add( displayName: string, component: menuElement ): void
+    add( displayName: string, component: MenuElement ): void
 }
-
-declare global {
-    const permaShowWindow : permaShowWindow;
-}
-
-export {};

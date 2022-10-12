@@ -1,6 +1,5 @@
-
 declare class Menu {
-    
+
     /**
      * 
      * @param key 
@@ -9,7 +8,7 @@ declare class Menu {
      * @noSelf
      */
     create(key: string, displayName: string): Menu
-    
+
     /** @noSelf **/
     delete(key: string): void
 
@@ -29,14 +28,14 @@ declare class Menu {
      * @param displayName 
      * @param defaultValue 
      * @param callback - Called when value is changed
-     * @returns {menuElement} - Element instance
+     * @returns {MenuElement} - Element instance
      */
     boolean(
         key: string,
         displayName: string,
         defaultValue: boolean,
-        callback?: /** @noSelf */ ( /** @noSelf */ (menuElementObj: menuElement, value: boolean) => void)
-    ): menuElement
+        callback?: /** @noSelf */ ( /** @noSelf */ (menuElementObj: MenuElement, value: boolean) => void)
+    ): MenuElement
 
     /**
      * 
@@ -47,8 +46,8 @@ declare class Menu {
     button(
         key: string,
         displayName: string,
-        callback?: ((menuElementObj: menuElement) => void)
-    ): menuElement
+        callback?: ((menuElementObj: MenuElement) => void)
+    ): MenuElement
 
     /**
      * 
@@ -67,8 +66,8 @@ declare class Menu {
         minValue: number,
         maxValue: number,
         step: number,
-        callback?: ((menuElementObj: menuElement, value: number) => void)
-    ): menuElement
+        callback?: ((menuElementObj: MenuElement, value: number) => void)
+    ): MenuElement
 
 
     sliderDecimal(
@@ -78,32 +77,33 @@ declare class Menu {
         minValue: number,
         maxValue: number,
         step: number,
-        callback?: | ((menuElementObj: menuElement, value: number) => void)
-    ): menuElement
+        callback?: | ((menuElementObj: MenuElement, value: number) => void)
+    ): MenuElement
     keybind(
         key: string,
         displayName: string,
         vKey: number | string,
         defaultValue: boolean,
         isToggle: boolean,
-        callback?: | ((menuElementObj: menuElement, value: boolean) => void)
-    ): menuElement
+        callback?: | ((menuElementObj: MenuElement, value: boolean) => void)
+    ): MenuElement
     list(
         key: string,
         displayName: string,
         items: string[],
         defaultValue: number,
-        callback?: ((menuElementObj: menuElement, value: number) => void)
-    ): menuElement
+        callback?: ((menuElementObj: MenuElement, value: number) => void)
+    ): MenuElement
     color(
         key: string,
         displayName: string,
         defaultValue: number,
-        callback?: ((menuElementObj: menuElement, value: number) => void)
-    ): menuElement
-    get(key: string): menuElement
-    spacer(key: string, displayName: string): menuElement
-    hide( value: boolean ) : void
-    isopen() : boolean
+        callback?: ((menuElementObj: MenuElement, value: number) => void)
+    ): MenuElement
+    get(key: string): MenuElement
+    getByKey(key: string): MenuElement;
+    spacer(key: string, displayName: string): MenuElement
+    hide(value: boolean): void
+    isopen(): boolean
     isMainMenuOpen(): boolean
 }

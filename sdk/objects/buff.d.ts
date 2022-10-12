@@ -1,7 +1,7 @@
-declare class buff {
+declare class Buff {
     name: string;
     valid: boolean;
-    caster: gameObject;
+    caster: GameObject;
     type: BuffType;
     startTime: number;
     endTime: number;

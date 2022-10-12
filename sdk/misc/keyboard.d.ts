@@ -1,10 +1,4 @@
-declare class keyboard {
+declare class Keyboard {
     isKeydown( key: number ): boolean
     keyCodeToString( key: number ): string
 }
-
-declare global {
-    const keyboard : keyboard; 
-}
-
-export {};

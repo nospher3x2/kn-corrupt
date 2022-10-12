@@ -1,7 +1,7 @@
-declare class spellData {
+declare class SpellData {
     hash: number;
     name: string;
     missileSpeed: number;
     missileWidth: number;
-    spellDataResource: spellDataResource;
+    spellDataResource: SpellDataResource;
 }

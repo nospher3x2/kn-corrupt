@@ -1,4 +1,4 @@
-declare class heroStats {
+declare class HeroStats {
     kills: number;
     deaths: number;
     assists: number;

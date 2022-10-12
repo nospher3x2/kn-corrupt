@@ -1,4 +1,4 @@
-declare class skin {
+declare class Skin {
     id: number;
     name: string;
 }

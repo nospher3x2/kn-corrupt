@@ -1,4 +1,4 @@
-declare class neutralMinionCamp {
+declare class NeutralMinionCamp {
     isAlive: boolean;
     spawnTime: number;
     campHandle: number;
