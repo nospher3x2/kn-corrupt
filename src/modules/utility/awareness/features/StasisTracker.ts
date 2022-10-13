@@ -1,4 +1,10 @@
+import GraphicsLib from "../../../../core/libs/GraphicsLib";
 import { round } from "../../../../utils/Round";
+
+interface StasisBuff {
+    start: number;
+    end: number;
+}
 
 class StasisTracker {
 
@@ -27,40 +33,61 @@ class StasisTracker {
 
     // Variables
     private static menu: Menu;
-    private static stasisCache = new Map<number, number>();
-    private static buffList = ["ChronoRevive", "BardRStasis", "ZhonyasRingShield"];
+    private static stasisCache = new LuaTable<number, StasisBuff>();
+    private static buffList = ["chronorevive", "bardrstasis", "zhonyasringshield"];
 
     /** @noSelf */
     public static onBuff(sender: AIBaseClient, buff: Buff, gain: boolean): void {
-        print(buff.name);
-        if (gain && StasisTracker.buffList.includes(buff.name)) {
-            StasisTracker.stasisCache.set(sender.networkId, buff.endTime);
+        if(!(gain && sender.isHero)) return;
+
+        const isMe = sender.networkId == player.networkId;
+
+        if (isMe && !StasisTracker.menu.getByKey("shouldTrack.me").value) return;
+        if (sender.isEnemy && !StasisTracker.menu.getByKey("shouldTrack.enemy").value) return;
+        if ((sender.isAlly && !isMe) && !StasisTracker.menu.getByKey("shouldTrack.ally").value) return;
+
+        if (StasisTracker.buffList.includes(buff.name.toLowerCase())) {
+            StasisTracker.stasisCache.set(sender.networkId, { start: buff.startTime, end: buff.endTime });
         }
     }
 
     /** @noSelf */
     public static onDraw(): void {
-        for (const [networkId, endTime] of StasisTracker.stasisCache) {
-            if (endTime > game.time) {
+        for (const [networkId, { start, end }] of StasisTracker.stasisCache) {
+            print(end);
+            if (end > game.time) {
                 const hero = objManager.getNetworkObject(networkId) as AIHeroClient;
-                const time = endTime - game.time;
+                const time = end - game.time;
+
+                GraphicsLib.semiCircleRainbow(
+                    hero.position,
+                    80,
+                    5,
+                    360,
+                    (360 * (1 - ((game.time - start) / 2.4)))
+                );
+
                 graphics.drawText(round(time, 2).toString(), 30, hero.position, graphics.rgba(255, 255, 255, 255));
-                graphics.drawCircleRainbow(hero.pos, 100, 1, 5);
             } else {
                 StasisTracker.stasisCache.delete(networkId);
             }
         }
     }
-    
+
     /** @noSelf */
     public static gameUpdate(): void {
     }
-    
+
     // Load Utility functions and set menu/adding callbacks
     public static load = (menu: Menu) => {
         StasisTracker.menu = menu.header("stasisTracker", "Stasis Tracker");
         const status = StasisTracker.menu.boolean("status", "Enabled", true, StasisTracker.callbackMenu);
         status.tooltip("Tracks enemy stasis (Zhonyas, StopWatch, Revive) duration.");
+
+        const shouldHeader = StasisTracker.menu.header("shouldTrack", "Should Track");
+        shouldHeader.boolean("me", "Me", true);
+        shouldHeader.boolean("ally", "Ally", false);
+        shouldHeader.boolean("enemy", "Enemy", true);
 
         StasisTracker.updateCallbacks(status.value);
     }

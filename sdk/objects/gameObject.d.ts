@@ -6,7 +6,6 @@ declare class GameObject {
     minBoundingBox: Vector3;
     maxBoundingBox: Vector3;
     position: Vector3;
-    pos: Vector3;
     isVisible: boolean;
     isAttackableUnit: boolean;
     isHero: boolean;

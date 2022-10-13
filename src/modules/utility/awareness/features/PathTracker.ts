@@ -46,9 +46,11 @@ class PathTracker {
     private static onNewPath(sender: AIBaseClient, path: Array<Vector3>, isDash: boolean, speed: number) {
         if (!sender.isHero || !sender.isVisible || sender.isDead) return;
 
-        if (sender.networkId == player.networkId && !PathTracker.menu.getByKey("shouldTrack.me").value) return;
+        const isMe = sender.networkId == player.networkId;
+
+        if (isMe && !PathTracker.menu.getByKey("shouldTrack.me").value) return;
         if (sender.isEnemy && !PathTracker.menu.getByKey("shouldTrack.enemys").value) return;
-        if (sender.isAlly && !PathTracker.menu.getByKey("shouldTrack.allys").value) return;
+        if ((sender.isAlly && !isMe) && !PathTracker.menu.getByKey("shouldTrack.allys").value) return;
 
         PathTracker.cache.set(sender.networkId, path);
     }
@@ -63,14 +65,14 @@ class PathTracker {
             }
 
             const endpath = path[path.length - 1];
-            if (entity.pos.dist(endpath) < 10) {
+            if (entity.position.dist(endpath) < 10) {
                 PathTracker.cache.delete(networkId);
                 continue;
             }
 
-            const dotColor = entity.isAlly ? PathTracker.menu.getByKey("colors.allyDots").value : PathTracker.menu.getByKey("colors.enemyDots").value;
-            const lineColor = entity.isAlly ? PathTracker.menu.getByKey("colors.allyLines").value : PathTracker.menu.getByKey("colors.enemyLines").value;
-            const textColor = entity.isAlly ? PathTracker.menu.getByKey("colors.allyText").value : PathTracker.menu.getByKey("colors.enemyText").value;
+            const dotColor = entity.isAlly ? PathTracker.menu.getByKey("colors.dots.allyDots").value : PathTracker.menu.getByKey("colors.dots.enemyDots").value;
+            const lineColor = entity.isAlly ? PathTracker.menu.getByKey("colors.lines.allyLines").value : PathTracker.menu.getByKey("colors.lines.enemyLines").value;
+            const textColor = entity.isAlly ? PathTracker.menu.getByKey("colors.text.allyText").value : PathTracker.menu.getByKey("colors.text.enemyText").value;
             const fontSize = PathTracker.menu.getByKey("textSettings.fontSize").value;
             const rainbowValue = PathTracker.menu.getByKey("colors.rainbow").value;
             const rainbowSpeed = PathTracker.menu.getByKey("colors.rainbowSpeed").value;
@@ -80,21 +82,21 @@ class PathTracker {
                 const current = path[i];
                 const next = path[i + 1];
 
-                if (entity.pos.dist(endpath) < 20) {
+                if (entity.position.dist(endpath) < 20) {
                     PathTracker.cache.delete(networkId);
                     break;
                 }
 
                 if (!next) break;
 
-                if (entity.pos.distance(current) < 30) {
-                    path[i] = entity.pos;
+                if (entity.position.distance(current) < 30) {
+                    path[i] = entity.position;
                     if (path[i - 1] == path[i]) path.splice(i - 1, 1);
 
                     PathTracker.cache.set(networkId, path);
                 }
 
-                if (entity.pos.distance(next) > 10 && PathTracker.menu.getByKey("draw.dots").value) {
+                if (entity.position.distance(next) > 10 && PathTracker.menu.getByKey("draw.dots").value) {
                     rainbowValue ? graphics.drawCircleRainbow(next, 10, 2, 2) : graphics.drawCircle(next, 10, 2, dotColor);
                 }
 
@@ -122,7 +124,7 @@ class PathTracker {
             }
 
             if (PathTracker.menu.getByKey("draw.dots").value) {
-                rainbowValue ? graphics.drawCircleRainbow(entity.pos, 10, 2, rainbowSpeed) : graphics.drawCircle(entity.pos, 10, 2, dotColor);
+                rainbowValue ? graphics.drawCircleRainbow(entity.position, 10, 2, rainbowSpeed) : graphics.drawCircle(entity.position, 10, 2, dotColor);
             }
 
             if (PathTracker.menu.getByKey("draw.health").value) {
@@ -136,7 +138,7 @@ class PathTracker {
 
             if (PathTracker.menu.getByKey("draw.distance").value) {
                 screenPos.y += textSpacing;
-                const distance = entity.pos.distance(endpath)
+                const distance = entity.position.distance(endpath)
 
                 graphics.drawText2D(`${round(distance)}m`,
                     fontSize,
@@ -147,7 +149,7 @@ class PathTracker {
 
             if (PathTracker.menu.getByKey("draw.time").value) {
                 screenPos.y += textSpacing;
-                const time = entity.pos.distance(endpath) / entity.asAIBase.characterIntermediate.moveSpeed;
+                const time = entity.position.distance(endpath) / entity.asAIBase.characterIntermediate.moveSpeed;
 
                 graphics.drawText2D(`${round(time, 2)}s`,
                     fontSize,
