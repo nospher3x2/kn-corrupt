@@ -2,13 +2,14 @@ declare class Callback {
     load: number;
     unload: number;
     wndproc: number;
-    gameUpdate: number;
+    draw: number;
     drawWorld: number;
     drawHUD: number;
     glow: number;
     tick: number;
     issueOrder: number;
     castSpell: number;
+    gameUpdate: number;
     processSpell: number;
     basicAttack: number;
     stopCast: number;

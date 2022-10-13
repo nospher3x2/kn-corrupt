@@ -3,12 +3,10 @@ import { round } from "../../../../utils/Round";
 class StasisTracker {
 
     /** @noSelf */
-    // { function: StasisTracker.gameUpdate, type: cb.gameUpdate },
-    // { function: StasisTracker.onBuff, type: cb.buff },
     public static currentCallbacks = [
         { function: StasisTracker.gameUpdate, type: cb.gameUpdate },
         { function: StasisTracker.onBuff, type: cb.buff },
-        { function: StasisTracker.onDraw, type: cb.drawHUD }
+        { function: StasisTracker.onDraw, type: cb.draw }
     ]
 
     /** @noSelf */
@@ -68,7 +66,6 @@ class StasisTracker {
     }
 
     // Unload Utility functions and delete menu/callbacks
-
     public static unload = (menu: Menu) => {
         StasisTracker.updateCallbacks(false);
         menu.delete("stasisTracker");
