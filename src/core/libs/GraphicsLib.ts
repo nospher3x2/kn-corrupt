@@ -9,7 +9,7 @@ class GraphicsLib {
      * @param quality 
      * @param degree 
      */
-    public static semiCircleRainbow = (position: Vector3, radius: number, width: number, quality: number, degree: number): void => {
+    public static semiCircle = (position: Vector3, radius: number, width: number, quality: number, degree: number, raimbow = true, color = graphics.rgba(255,255, 255, 255)): void => {
         const qty = (Math.PI * 2) / quality;
 
         let a = new Vector3(
@@ -24,12 +24,15 @@ class GraphicsLib {
                 position.y,
                 position.z - radius * Math.sin(theta + 6.28),
             );
-
-            graphics.drawLineRainbow(a, b, width, 3);
+            
+            if (raimbow) {
+                graphics.drawLineRainbow(a, b, width, 3)
+            } else {
+                graphics.drawLine(a, b, width, color);
+            };
             a = b;
         }
     }
-
 }
 
 export default GraphicsLib;

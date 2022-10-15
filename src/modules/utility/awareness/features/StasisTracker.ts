@@ -58,7 +58,7 @@ class StasisTracker {
                 const hero = objManager.getNetworkObject(networkId) as AIHeroClient;
                 const time = end - game.time;
 
-                GraphicsLib.semiCircleRainbow(
+                GraphicsLib.semiCircle(
                     hero.position,
                     80,
                     5,
