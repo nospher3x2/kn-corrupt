@@ -3,13 +3,13 @@ import { round } from "../../../../utils/Round";
 class PathTracker {
 
     /** @noSelf */
-    public static currentCallbacks = [
+    private static currentCallbacks = [
         { function: PathTracker.onNewPath, type: cb.newPath },
         { function: PathTracker.onDraw, type: cb.draw }
     ]
 
     /** @noSelf */
-    public static updateCallbacks(status: boolean) {
+    private static updateCallbacks(status: boolean) {
         for (const callback of PathTracker.currentCallbacks) {
             if (status) {
                 cb.add(callback.type, callback.function);
@@ -36,9 +36,9 @@ class PathTracker {
     /** @noSelf */
     private static callbackColor(menuElementObj: MenuElement, value: boolean) {
         const rainbowValue = PathTracker.menu.getByKey("colors.rainbow").value;
-        const changeValue = rainbowValue ? true : false;
+        const changeValue = !rainbowValue;
+        // PathTracker.menu.getByKey("colors.dots").hide(changeValue);
         PathTracker.menu.getByKey("colors.lines").hide(changeValue);
-        PathTracker.menu.getByKey("colors.dots").hide(changeValue);
         PathTracker.menu.getByKey("colors.text").hide(changeValue);
     }
 
@@ -179,7 +179,7 @@ class PathTracker {
         shouldTrack.boolean("allys", "Allys", true);
         shouldTrack.boolean("enemys", "Enemys", true);
 
-        pathMenu.spacer("spacer2", "");
+        pathMenu.spacer("drawSpacer", "");
 
         const drawMenu = pathMenu.header("draw", "Draws");
 

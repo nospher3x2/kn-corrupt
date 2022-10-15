@@ -10,7 +10,7 @@ class KNUtility {
     public static main: Menu;
 
     private static modules = [
-        new Activator,
+        new Activator(),
         new Awareness(),
         new Hud(),
         new Insanity(),

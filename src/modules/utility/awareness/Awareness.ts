@@ -1,3 +1,4 @@
+import { DamageTracker } from "./features/DamageTracker";
 import { PathTracker } from "./features/PathTracker";
 import { StasisTracker } from "./features/StasisTracker";
 import { WardGrid } from "./features/WardGrid";
@@ -9,7 +10,8 @@ class Awareness {
     private static modules = [
         StasisTracker,
         WardGrid,
-        PathTracker
+        PathTracker,
+        DamageTracker
     ]
 
     public load = (menu: Menu) => {

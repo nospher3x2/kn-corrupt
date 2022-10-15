@@ -26,17 +26,20 @@ class DamageTracker {
 
     // Variables
     private static menu: Menu;
-    private static objectsCache = new LuaTable<number, number>(); //networkId, damage
+    private static cache = new LuaTable<number, number>(); //networkId, damage
 
     /** @noSelf */
     public static onDraw(): void {
-        for (const [networkId, damage] of DamageTracker.objectsCache) {
+        for (const [networkId, damage] of DamageTracker.cache) {
             const object = objManager.getNetworkObject(networkId);
-            if (object && object.asAIBase && !object.asAIBase.isDead && object.asAIBase.isOnScreen) {
-                //const pos = object.asAIBase.bonePosition("head"); // need to fix this
-                const pos = object.position;
-                graphics.drawText(damage.toString(), 20, pos, graphics.rgba(255, 255, 255, 255));
+            if (!object.isValid || !object.asAIBase.isVisible || !object.asAIBase.isOnScreen || object.asAIBase.isDead) {
+                DamageTracker.cache.delete(networkId);
+                continue;
             }
+
+            const position = object.asAIBase.bonePosition("head"); // need to fix this
+            // const position = object.position;
+            graphics.drawText(damage.toString(), 20, position, graphics.rgba(255, 255, 255, 255));
         }
     }
 
@@ -44,10 +47,10 @@ class DamageTracker {
     public static gameUpdate(): void {
         const heroesList = objManager.heroes.enemies.list;
         for (const hero of heroesList) {
-            if (hero.asAIBase.isDead || hero.asAIBase.isInvulnerable) continue;
-            let damage = damageLib.autoAttack(hero.asAIBase, hero.asAIBase);
-            if (damage <= 0) { damage = 0};
-            DamageTracker.objectsCache.set(hero.asAIBase.networkId, Math.floor(damage));
+            if (!hero.asAIBase.isOnScreen || hero.asAIBase.isDead || hero.asAIBase.isInvulnerable) continue;
+            
+            const damage = damageLib.autoAttack(player, hero.asAttackableUnit);
+            DamageTracker.cache.set(hero.asAIBase.networkId, Math.floor(damage <= 0 ? 0 : damage));
         }
     }
 
