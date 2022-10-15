@@ -82,7 +82,7 @@ class DamageTracker {
         for (const hero of heroesList) {
             if (!hero.asAIBase.isOnScreen || hero.asAIBase.isDead || hero.asAIBase.isInvulnerable) continue;
 
-            let damage = damageLib.autoAttack(player, hero.asAttackableUnit);
+            let damage = damageLib.autoAttack(player, hero.asAIBase);
             damage = damage <= 0 ? 0 : damage;
             DamageTracker.cache.set(hero.asAIBase.networkId, Math.floor(hero.asAIBase.health / damage));
         }

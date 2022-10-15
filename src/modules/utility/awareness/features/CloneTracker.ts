@@ -52,13 +52,13 @@ class CloneTracker {
     /** @noSelf */
     public static onCreateObject(object: GameObject) {
         if (!object || !object.isValid || !object.isAttackableUnit) return;
-        if (object.asAIBase.level != 0 || !object.asAttackableUnit.owner) return;
+        if (object.asAIBase.level != 0 || object.asAIBase.isPet ||!object.asAIBase.owner ) return;
 
-        if (!object.asAIBase.isPet && object.asAttackableUnit.owner.asAIBase.skinHash == object.asAIBase.skinHash) {
+        if (object.asAttackableUnit.owner.asAIBase.skinHash == object.asAIBase.skinHash) {
             chat.showChat(`Created clone: ${object.asAIBase.skinName}`)
             CloneTracker.cache.set(object.networkId, game.time);
         }
-    }
+    } 
 
     // Load Utility functions and set menu/adding callbacks
     public static load = (menu: Menu) => {
