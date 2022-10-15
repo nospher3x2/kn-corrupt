@@ -15,7 +15,7 @@
   },
   "tstl": {
     "luaTarget": "JIT",
-    "luaBundle": "C:/ProgramData/5566263979190835682/Scripts/kn-aio/KN.lua",
+    "luaBundle": "C:/ProgramData/5834881566955630479/Scripts/kn-aio/KN.lua",
     "luaBundleEntry": "src/index.ts",
     "luaPlugins": [
       {

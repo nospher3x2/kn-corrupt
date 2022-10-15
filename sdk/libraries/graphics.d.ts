@@ -12,6 +12,7 @@ declare class Graphics {
      * @param alpha 
      * @returns {number} - Color
      */
+    /** @noSelf **/
     rgba(red: number, green: number, blue: number, alpha: number): number
 
     /**
@@ -22,6 +23,7 @@ declare class Graphics {
      * @param blue 
      * @returns {number} - Color
      */
+    /** @noSelf **/
     argb(alpha: number, red: number, green: number, blue: number): number
 
     /**
@@ -30,6 +32,7 @@ declare class Graphics {
      * @param fontSize
      * @returns {Vector2} - Size
      */
+    /** @noSelf **/
     textSize(text: string, fontSize: number): Vector2
 
     /** @noSelf **/

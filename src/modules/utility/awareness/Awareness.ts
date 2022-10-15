@@ -1,3 +1,4 @@
+import { CloneTracker } from "./features/CloneTracker";
 import { DamageTracker } from "./features/DamageTracker";
 import { PathTracker } from "./features/PathTracker";
 import { StasisTracker } from "./features/StasisTracker";
@@ -10,6 +11,7 @@ class Awareness {
     private static modules = [
         StasisTracker,
         WardGrid,
+        CloneTracker,
         PathTracker,
         DamageTracker
     ]

@@ -22,6 +22,16 @@ class DamageTracker {
     /** @noSelf */
     public static callbackMenu(menuElementObj: MenuElement, value: boolean) {
         DamageTracker.updateCallbacks(value);
+        for (const [networkId, damage] of DamageTracker.cache) {
+            DamageTracker.cache.delete(networkId);
+        }
+    }
+
+    /** @noSelf */
+    private static callbackPosition(menuElementObj: MenuElement, value: number) {
+        const shouldShow = value != 3 // 3 is custom
+        DamageTracker.menu.getByKey("x").hide(shouldShow);
+        DamageTracker.menu.getByKey("y").hide(shouldShow);
     }
 
     // Variables
@@ -37,9 +47,32 @@ class DamageTracker {
                 continue;
             }
 
-            const position = object.asAIBase.bonePosition("head"); // need to fix this
-            // const position = object.position;
-            graphics.drawText(damage.toString(), 20, position, graphics.rgba(255, 255, 255, 255));
+            const position = object.asAIBase.healthBarPosition;
+            let text = "Remaining AA: " + damage.toString();
+            if (damage <= 0) text = "Killable";
+            const fontSize = DamageTracker.menu.getByKey("textSize").value
+            const textSize = graphics.textSize(text, fontSize);
+            let pos = new Vector2(0, 0);
+
+            switch (DamageTracker.menu.getByKey("position").value) {
+                case 0:
+                    graphics.drawCircle2D(position, 1, 1, graphics.rgba(255, 255, 255, 255));
+                    pos = new Vector2(position.x - textSize.x/2 - 10, position.y - textSize.y - 30);
+                    break;
+                case 1:
+                    pos = new Vector2(position.x - textSize.x/2 - 10, position.y - textSize.y + 20);
+                    break;
+                case 2:
+                    pos = new Vector2(position.x - textSize.x - 75, position.y - textSize.y - 8);
+                    break;
+                case 3:
+                    const xValue = DamageTracker.menu.getByKey("x").value;
+                    const yValue = DamageTracker.menu.getByKey("y").value;
+                    pos = new Vector2(position.x + xValue, position.y + yValue);
+                    break;
+            }
+            const color = DamageTracker.menu.getByKey("textColor").value;
+            graphics.drawText2D(text, fontSize, pos, color);
         }
     }
 
@@ -49,8 +82,9 @@ class DamageTracker {
         for (const hero of heroesList) {
             if (!hero.asAIBase.isOnScreen || hero.asAIBase.isDead || hero.asAIBase.isInvulnerable) continue;
             
-            const damage = damageLib.autoAttack(player, hero.asAttackableUnit);
-            DamageTracker.cache.set(hero.asAIBase.networkId, Math.floor(damage <= 0 ? 0 : damage));
+            let damage = damageLib.autoAttack(player, hero.asAttackableUnit);
+            damage = damage <= 0 ? 0 : damage;
+            DamageTracker.cache.set(hero.asAIBase.networkId, Math.floor(hero.asAIBase.health/damage));
         }
     }
 
@@ -58,9 +92,15 @@ class DamageTracker {
     public static load = (menu: Menu) => {
         DamageTracker.menu = menu.header("DamageTracker", "Damage Tracker");
         const status = DamageTracker.menu.boolean("status", "Enabled", true, DamageTracker.callbackMenu);
+        const list = DamageTracker.menu.list("position", "Position", ["Top", "Bottom", "Middle", "Custom"], 0, DamageTracker.callbackPosition);
         status.tooltip("Tracks amount of AA for killing enemy.");
+        DamageTracker.menu.color("textColor", "Text Color", graphics.argb(255, 255, 255, 255));
+        DamageTracker.menu.slider("textSize", "Text Size", 20, 0, 100, 1).hide(true);
+        DamageTracker.menu.slider("x", "X", 10, -1000, 1000, 1).hide(true);
+        DamageTracker.menu.slider("y", "Y", 30, -1000, 1000, 1).hide(true);
 
         DamageTracker.updateCallbacks(status.value);
+        DamageTracker.callbackPosition(list, list.value);
     }
 
     // Unload Utility functions and delete menu/callbacks
