@@ -1,10 +1,9 @@
-import { round } from "../../../../utils/Round";
-
 class CloneTracker {
 
     /** @noSelf */
     public static currentCallbacks = [
-        { function: CloneTracker.onDraw, type: cb.draw }
+        { function: CloneTracker.onDraw, type: cb.draw },
+        { function: CloneTracker.onCreateObject, type: cb.create }
     ]
 
     /** @noSelf */
@@ -25,15 +24,36 @@ class CloneTracker {
 
     // Variables
     private static menu: Menu;
+    private static cache = new LuaTable<number, number>(); // networkId clone, neworkId owner
 
     /** @noSelf */
     public static onDraw(): void {
-        const clones = objManager.minions.enemies.list;
-        for (const clone of clones) {
-            if (clone.asAIBase.isDead || clone.asAIBase.level != 0 || clone.asAIBase.isPet || !clone.asAttackableUnit.owner) continue;
-            const pos = clone.asAIBase.bonePosition("head");
-            graphics.drawTextStroke("** CLONE **", CloneTracker.menu.getByKey("textSize").value, pos, CloneTracker.menu.getByKey("textColor").value);
+        for (const [networkId] of CloneTracker.cache) {
+            const clone = objManager.getNetworkObject(networkId);
+            if (!clone || !clone.isValid || !clone.asAttackableUnit.owner || clone.asAttackableUnit.owner.name !== clone.name) {
+                CloneTracker.cache.delete(networkId);
+                continue;
+            }
+
+            if (!clone.isOnScreen) continue;
+
+            const position = clone.asAIBase.bonePosition("head");
+            graphics.drawTextStroke(
+                "** CLONE **",
+                CloneTracker.menu.getByKey("textSize").value,
+                position,
+                CloneTracker.menu.getByKey("textColor").value
+            );
             graphics.drawCircleRainbow(clone.position, 100, 1, 1);
+        }
+    }
+
+    /** @noSelf */
+    public static onCreateObject(object: GameObject) {
+        if (!object || !object.isValid || !object.isAttackableUnit) return;
+
+        if (object.asAIBase.level == 0 && object.asAIBase.isPet) {
+            CloneTracker.cache.set(object.networkId, game.time);
         }
     }
 

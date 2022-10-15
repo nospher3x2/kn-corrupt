@@ -10,7 +10,6 @@ class StasisTracker {
 
     /** @noSelf */
     public static currentCallbacks = [
-        { function: StasisTracker.gameUpdate, type: cb.gameUpdate },
         { function: StasisTracker.onBuff, type: cb.buff },
         { function: StasisTracker.onDraw, type: cb.draw }
     ]
@@ -38,7 +37,7 @@ class StasisTracker {
 
     /** @noSelf */
     public static onBuff(sender: AIBaseClient, buff: Buff, gain: boolean): void {
-        if(!(gain && sender.isHero)) return;
+        if (!(gain && sender.isHero)) return;
 
         const isMe = sender.networkId == player.networkId;
 
@@ -72,10 +71,6 @@ class StasisTracker {
                 StasisTracker.stasisCache.delete(networkId);
             }
         }
-    }
-
-    /** @noSelf */
-    public static gameUpdate(): void {
     }
 
     // Load Utility functions and set menu/adding callbacks

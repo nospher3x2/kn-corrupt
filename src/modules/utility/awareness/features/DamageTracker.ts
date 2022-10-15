@@ -1,10 +1,10 @@
-import { round } from "../../../../utils/Round";
+import ExtraCallbackLib from "../../../../core/libs/ExtraCallbackLib";
 
 class DamageTracker {
 
     /** @noSelf */
     public static currentCallbacks = [
-        { function: DamageTracker.gameUpdate, type: cb.gameUpdate },
+        { function: DamageTracker.gameUpdate, type: ExtraCallbackLib.SLOW_UPDATE },
         { function: DamageTracker.onDraw, type: cb.draw }
     ]
 
@@ -22,7 +22,7 @@ class DamageTracker {
     /** @noSelf */
     public static callbackMenu(menuElementObj: MenuElement, value: boolean) {
         DamageTracker.updateCallbacks(value);
-        for (const [networkId, damage] of DamageTracker.cache) {
+        for (const [networkId] of DamageTracker.cache) {
             DamageTracker.cache.delete(networkId);
         }
     }
@@ -48,8 +48,8 @@ class DamageTracker {
             }
 
             const position = object.asAIBase.healthBarPosition;
-            let text = "Remaining AA: " + damage.toString();
-            if (damage <= 0) text = "Killable";
+            let text = "Remaining AA: " + (damage + 1).toString();
+            if (damage <= 0) text = "KILLABLE!";
             const fontSize = DamageTracker.menu.getByKey("textSize").value
             const textSize = graphics.textSize(text, fontSize);
             let pos = new Vector2(0, 0);
@@ -57,10 +57,10 @@ class DamageTracker {
             switch (DamageTracker.menu.getByKey("position").value) {
                 case 0:
                     graphics.drawCircle2D(position, 1, 1, graphics.rgba(255, 255, 255, 255));
-                    pos = new Vector2(position.x - textSize.x/2 - 10, position.y - textSize.y - 30);
+                    pos = new Vector2(position.x - textSize.x / 2, position.y - textSize.y - 42);
                     break;
                 case 1:
-                    pos = new Vector2(position.x - textSize.x/2 - 10, position.y - textSize.y + 20);
+                    pos = new Vector2(position.x - textSize.x / 2 - 10, position.y - textSize.y + 20);
                     break;
                 case 2:
                     pos = new Vector2(position.x - textSize.x - 75, position.y - textSize.y - 8);
@@ -81,10 +81,10 @@ class DamageTracker {
         const heroesList = objManager.heroes.enemies.list;
         for (const hero of heroesList) {
             if (!hero.asAIBase.isOnScreen || hero.asAIBase.isDead || hero.asAIBase.isInvulnerable) continue;
-            
+
             let damage = damageLib.autoAttack(player, hero.asAttackableUnit);
             damage = damage <= 0 ? 0 : damage;
-            DamageTracker.cache.set(hero.asAIBase.networkId, Math.floor(hero.asAIBase.health/damage));
+            DamageTracker.cache.set(hero.asAIBase.networkId, Math.floor(hero.asAIBase.health / damage));
         }
     }
 

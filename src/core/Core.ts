@@ -1,6 +1,7 @@
 import { KNChampion } from "../modules/champion/KNChampion"
 import { KNUtility } from "../modules/utility/KNUtility";
 import { MessageUtils } from "../utils/Message";
+import ExtraCallbackLib from "./libs/ExtraCallbackLib";
 
 const championModuleHandler = new KNChampion();
 const utilityModuleHandler = new KNUtility();
@@ -11,9 +12,10 @@ class Core {
     public static LAST_UPDATE = "10.11.2022";
 
     public static load = () => {
-        MessageUtils.send("Core Loaded", "#ffffff", true, false);
+        ExtraCallbackLib.load();
+
         const main = menu.create("kn", "[KN] Loader");
-        
+
         main.spacer("separator1", "[KN] Core ")
 
         const utilityStatus = main.boolean("utility_status", "Utility", true, Core.loadUtilityModule);
@@ -24,6 +26,7 @@ class Core {
         main.spacer("authors", `© ${Core.VERSION} - Nospher & Karasu`);
         main.spacer("update", `Last Update: ${Core.LAST_UPDATE}`);
 
+        MessageUtils.send("Core Loaded", "#ffffff", true, false);
         if (utilityStatus.value) utilityModuleHandler.load();
         if (championStatus.value) championModuleHandler.load();
     }
