@@ -54,7 +54,7 @@ class CloneTracker {
         if (!object || !object.isValid || !object.isAttackableUnit) return;
         if (object.asAIBase.level != 0 || !object.asAttackableUnit.owner) return;
 
-        if (!object.asAIBase.isPet && object.asAttackableUnit.owner.name == object.asAIBase.skinName) {
+        if (!object.asAIBase.isPet && object.asAttackableUnit.owner.asAIBase.skinHash == object.asAIBase.skinHash) {
             chat.showChat(`Created clone: ${object.asAIBase.skinName}`)
             CloneTracker.cache.set(object.networkId, game.time);
         }
