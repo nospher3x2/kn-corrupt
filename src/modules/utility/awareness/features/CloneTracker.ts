@@ -25,16 +25,27 @@ class CloneTracker {
     // Variables
     private static menu: Menu;
     private static cache = new LuaTable<number, number>(); // networkId clone, neworkId owner
+    private static CLONE_NAMES = [
+        'Shaco',
+        'Neeko',
+        'LeBlanc',
+        'Wukong'
+    ]
 
     /** @noSelf */
     public static onDraw(): void {
         for (const [networkId] of CloneTracker.cache) {
             const clone = objManager.getNetworkObject(networkId);
-            if (!clone || !clone.isValid || !clone.asAttackableUnit.owner || clone.asAttackableUnit.owner.name !== clone.name) {
+            if (!clone || !clone.isValid || clone.asAIBase.isDead) {
                 CloneTracker.cache.delete(networkId);
                 continue;
             }
 
+            if (clone.asAttackableUnit.owner.name !== clone.asAIBase.skinName) {
+                CloneTracker.cache.delete(networkId);
+                continue;
+            }
+            
             if (!clone.isOnScreen) continue;
 
             const position = clone.asAIBase.bonePosition("head");
@@ -52,7 +63,7 @@ class CloneTracker {
     public static onCreateObject(object: GameObject) {
         if (!object || !object.isValid || !object.isAttackableUnit) return;
 
-        if (object.asAIBase.level == 0 && object.asAIBase.isPet) {
+        if (object.asAIBase.level == 0 && !object.asAIBase.isPet && object.asAttackableUnit.owner) {
             CloneTracker.cache.set(object.networkId, game.time);
         }
     }
