@@ -161,6 +161,7 @@ class Names {
 		{ name: "Zeri",  shortName: "zeri" },
     ];
 
+	/** @noSelf */
     public static getShort = (champion: AIBaseClient) => {
         return Names.shortNames.find((x) => x.name === champion.name)?.shortName;
     }

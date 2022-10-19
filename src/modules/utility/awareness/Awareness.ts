@@ -10,7 +10,6 @@ class Awareness {
 
     private static modules = [
         StasisTracker,
-        WardGrid,
         CloneTracker,
         PathTracker,
         DamageTracker
