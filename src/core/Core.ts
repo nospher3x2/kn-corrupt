@@ -2,6 +2,7 @@ import { KNChampion } from "../modules/champion/KNChampion"
 import { KNUtility } from "../modules/utility/KNUtility";
 import { MessageUtils } from "../utils/Message";
 import ExtraCallbackLib from "./libs/ExtraCallbackLib";
+import NotificationLib from "./libs/NotificationLib";
 
 const championModuleHandler = new KNChampion();
 const utilityModuleHandler = new KNUtility();
@@ -13,6 +14,7 @@ class Core {
 
     public static load = () => {
         ExtraCallbackLib.load();
+        NotificationLib.load()
 
         const main = menu.create("kn", "[KN] Loader");
 
