@@ -4,12 +4,12 @@ class Items {
     public static supportItems = [ // slot just as a reference
         { name: "Harrowing_Crescent", slot: SpellSlot.Item1, id: 3863 },
         { name: "Runesteel_Spaulders", slot: SpellSlot.Item1, id: 3855 },
-		{ name: "Frostfang", slot: SpellSlot.Item1, id: 3851 },
-		{ name: "Targons_Buckler", slot: SpellSlot.Item1, id: 3859 },
-		{ name: "Shard_of_True_Ice", slot: SpellSlot.Item1, id: 3853 },
-		{ name: "Pauldrons_of_Whiterock", slot: SpellSlot.Item1, id: 3857 },
-		{ name: "Black_Mist_Scythe", slot: SpellSlot.Item1, id: 3864 },
-		{ name: "Bulwark_of_the_Mountain", slot: SpellSlot.Item1, id: 3860 },
+        { name: "Frostfang", slot: SpellSlot.Item1, id: 3851 },
+        { name: "Targons_Buckler", slot: SpellSlot.Item1, id: 3859 },
+        { name: "Shard_of_True_Ice", slot: SpellSlot.Item1, id: 3853 },
+        { name: "Pauldrons_of_Whiterock", slot: SpellSlot.Item1, id: 3857 },
+        { name: "Black_Mist_Scythe", slot: SpellSlot.Item1, id: 3864 },
+        { name: "Bulwark_of_the_Mountain", slot: SpellSlot.Item1, id: 3860 },
     ]
 
     /** @noSelf */

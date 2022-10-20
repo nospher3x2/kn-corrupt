@@ -67,7 +67,8 @@ class SpellChat {
 
     /** @noSelf */
     public static slowUpdate() {
-        if (SpellChat.menu.getByKey("key").value) {
+        const keyStatus = SpellChat.menu.getByKey("key")
+        if (keyStatus.value) {
             let message = "";
             for (const hero of objManager.heroes.enemies.list) {
                 for (const slot of [SpellSlot.Summoner1, SpellSlot.Summoner2]) {
@@ -97,6 +98,7 @@ class SpellChat {
             if (message.length > 0) {
                 SpellChat.menu.getByKey("fake").value ? chat.sendChat(message) : chat.showChat(message);
             }
+            keyStatus.set(false);
         }
     } 
 
