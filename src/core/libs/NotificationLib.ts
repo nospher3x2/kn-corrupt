@@ -1,15 +1,42 @@
-
-interface Notification {
+export interface NotificationDTO {
     id: number;
     title: string;
     body: string;
     useIcon: boolean;
-    iconTexture: any;
+    iconTexture: string;
     iconSize: Vector2;
     borderColor: number;
     expires: number;
     priority: number;
 }
+
+/** @customConstructor Notification */
+export class Notification {
+
+    public id: number;
+    public title: string;
+    public body: string;
+    public useIcon: boolean;
+    public iconTexture: string;
+    public iconSize: Vector2;
+    public borderColor: number;
+    public expires: number;
+    public priority: number;
+
+    constructor({ id, title, body, useIcon, iconTexture, iconSize, borderColor, expires, priority }: NotificationDTO) {
+        this.id = id;
+        this.title = title;
+        this.body = body;
+        this.useIcon = useIcon;
+        this.iconTexture = iconTexture;
+        this.iconSize = iconSize;
+        this.borderColor = borderColor;
+        this.expires = expires;
+        this.priority = priority;
+    }
+}
+
+// Create NotificationDTO interface
 
 class NotificationLib {
 
@@ -29,23 +56,23 @@ class NotificationLib {
     }
 
     public static load() {
-        cb.add(cb.draw, this.onDraw);
+        cb.add(cb.draw, NotificationLib.onDraw);
     }
 
     /** @noSelf */
     public static onDraw() {
         // Draw Notifications
-        const notifications = this.orderNotifications();
+        const notifications = NotificationLib.orderNotifications();
         if (notifications.length <= 0) return;
         for (const notification of notifications) {
-            this.drawNotification(notification);
+            NotificationLib.drawNotification(notification);
         }
     }
 
     /** @noSelf */
     public static getPosition(notification: Notification) {
-        const { height, width, padding, border, textSize, textPadding, iconSize, iconPadding, iconBorderRadius, iconBorder } = this.default;
-        const notifications = this.getNotifications();
+        const { height, width, padding } = NotificationLib.default;
+        const notifications = NotificationLib.getNotifications();
         const index = notifications.indexOf(notification);
         const x = graphics.width - width - padding;
         const y = graphics.height - (height + padding) * (index + 1);
@@ -54,9 +81,14 @@ class NotificationLib {
 
     /** @noSelf */
     public static drawNotification(notification: Notification) {
-        const { height, width, padding, border, textSize, textPadding, iconSize, iconPadding, iconBorderRadius, iconBorder } = this.default;
+        if(notification.expires < game.time) {
+            NotificationLib.removeNotification(notification.id);
+            return;
+        }
+
+        const { height, width, border, textSize, textPadding, iconSize, iconPadding, iconBorder } = NotificationLib.default;
         const { title, body, useIcon, iconTexture, iconSize: iconSizeOverride, borderColor, expires } = notification;
-        const position = this.getPosition(notification);
+        const position = NotificationLib.getPosition(notification);
         const x = position.x;
         const y = position.y;
         const iconSizeX = iconSizeOverride.x;
@@ -88,7 +120,7 @@ class NotificationLib {
 
     /** @noSelf */
     public static orderNotifications() {
-        const notifications = this.getNotifications();
+        const notifications = NotificationLib.getNotifications();
         if (notifications.length <= 0) return [];
         notifications.sort((a, b) => {
             return a.priority - b.priority;
@@ -98,27 +130,27 @@ class NotificationLib {
 
     /** @noSelf */
     public static createNotification(notification: Notification) {
-        this.notifications.push(notification);
+        NotificationLib.notifications.push(notification);
     }
 
     /** @noSelf */
     public static removeNotification(id: number) {
-        this.notifications = this.notifications.filter((notification) => notification.id !== id);
+        NotificationLib.notifications = NotificationLib.notifications.filter((notification) => notification.id !== id);
     }
 
     /** @noSelf */
     public static removeAllNotifications() {
-        this.notifications = [];
+        NotificationLib.notifications = [];
     }
 
     /** @noSelf */
     public static getNotification(id: number) {
-        return this.notifications.find((notification) => notification.id === id);
+        return NotificationLib.notifications.find((notification) => notification.id === id);
     }
 
     /** @noSelf */
     public static getNotifications() {
-        return this.notifications;
+        return NotificationLib.notifications;
     }
 
 }

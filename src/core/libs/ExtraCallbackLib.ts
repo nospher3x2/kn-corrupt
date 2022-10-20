@@ -4,11 +4,11 @@ class ExtraCallbackLib {
     public static SLOW_UPDATE = 97;
 
     public static load() {
-        cb.add(cb.gameUpdate, this.onGameUpdate);
+        cb.add(cb.gameUpdate, ExtraCallbackLib.onGameUpdate);
     }
 
     /** @noSelf */
-    public static onGameUpdate() {
+    private static onGameUpdate() {
         ExtraCallbackLib.UPDATE_TICK++;
         if (ExtraCallbackLib.UPDATE_TICK % 5 === 0) {
             ExtraCallbackLib.UPDATE_TICK = 0;

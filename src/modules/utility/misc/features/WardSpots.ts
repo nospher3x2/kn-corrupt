@@ -40,19 +40,22 @@ class WardSpots {
     /** @noSelf */
     public static checkDistance() {
         const limitDistance = WardSpots.menu.getByKey("distance").value;
-        let shouldContinue = false;
         switch (WardSpots.menu.getByKey("distanceType").value) {
             case 0: // player
-                if (player.distance(WardSpots.getNearestSpot().standPos) > limitDistance) shouldContinue = true;
+                if (player.distance(WardSpots.getNearestSpot().standPos) > limitDistance)
+                    return true;
                 break;
             case 1: // cursor
-                if (player.distance(game.cursorPos) > limitDistance) shouldContinue = true;
+                if (player.distance(game.cursorPos) > limitDistance)
+                    return true;
                 break;
             case 2: // screen
-                if (player.distance(game.cameraPos) > limitDistance) shouldContinue = true;
+                if (player.distance(game.cameraPos) > limitDistance)
+                    return true;
                 break;
         }
-        return shouldContinue;
+        
+        return false;
     }
 
     // Variables
@@ -112,19 +115,19 @@ class WardSpots {
         status.tooltip("Shows trick wards spots on the map.");
 
         WardSpots.menu.keybind("useKey", "Key", "N", false, false)
-        .tooltip("Click to go to next ward spot under the cursor. Ward Priority: (SupportItem > Yellow > Pink/Control).");
+            .tooltip("Click to go to next ward spot under the cursor. Ward Priority: (SupportItem > Yellow > Pink/Control).");
         WardSpots.menu.boolean("support", "Support Items", false)
-        .tooltip("Will use support items to ward before using yellow trinkets.")
+            .tooltip("Will use support items to ward before using yellow trinkets.")
         WardSpots.menu.boolean("pinkeye", "Pink/Control", true)
-        .tooltip("Will use Pink/Control wards if don't have any other.");
+            .tooltip("Will use Pink/Control wards if don't have any other.");
 
         WardSpots.menu.spacer("spacer0", "Drawings");
 
         WardSpots.menu.boolean("showArrow", "Draw Arrow", true)
-        .tooltip("Shows the direction of the ward spots.");
+            .tooltip("Shows the direction of the ward spots.");
         WardSpots.menu.list("distanceType", "Distance Factor", ["Player", "MousePos", "Screen"], 0);
         WardSpots.menu.slider("distance", "Max Distance", 600, 0, 3500, 1)
-        .tooltip("Minimum distance (in units) from the element limit which ward spots will be drawn");
+            .tooltip("Minimum distance (in units) from the element limit which ward spots will be drawn");
         WardSpots.menu.boolean("animation", "Animations", true);
 
         WardSpots.menu.spacer("spacer1", "Color");
