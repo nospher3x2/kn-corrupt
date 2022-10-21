@@ -19,16 +19,6 @@ class Items {
         { name: "Farsight_Alteration", slot: SpellSlot.Trinket, id: 3363 },
     ]
 
-    /** @noSelf */
-    public static wardNames = [
-		{ name: "BlueTrinket", type: "Blue"},
-		{ name: "JammerDevice", type: "Red"},
-		{ name: "PerksZombieWard", type: "Yellow"},
-		{ name: "SightWard", type: "Yellow"}, // not sure if this is correct
-		{ name: "VisionWard", type: "Blue"}, // not sure if this is correct
-		{ name: "YellowTrinket", type: "Yellow"},
-		{ name: "YellowTrinketUpgrade", type: "Yellow"},
-    ]
 }
 
 export { Items };
