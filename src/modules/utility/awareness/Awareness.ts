@@ -1,5 +1,6 @@
 import { CloneTracker } from "./features/CloneTracker";
 import { DamageTracker } from "./features/DamageTracker";
+import { OrnnPillar } from "./features/OrnnPillarRange";
 import { PathTracker } from "./features/PathTracker";
 import { StasisTracker } from "./features/StasisTracker";
 import { WardGrid } from "./features/WardGrid";
@@ -12,7 +13,8 @@ class Awareness {
         StasisTracker,
         CloneTracker,
         PathTracker,
-        DamageTracker
+        DamageTracker,
+        OrnnPillar
     ]
 
     public load = (menu: Menu) => {
