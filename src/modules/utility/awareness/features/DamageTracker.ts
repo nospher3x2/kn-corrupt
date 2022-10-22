@@ -1,17 +1,21 @@
 import ExtraCallbackLib from "../../../../core/libs/ExtraCallbackLib";
+import { MessageUtils } from "../../../../utils/Message";
 
 class DamageTracker {
 
     /** @noSelf */
     public static currentCallbacks = [
-        { function: DamageTracker.gameUpdate, type: ExtraCallbackLib.SLOW_UPDATE },
-        { function: DamageTracker.onDraw, type: cb.draw }
+        { function: DamageTracker.onDraw, type: cb.draw },
+        { function: DamageTracker.slowUpdate, type: ExtraCallbackLib.SLOW_UPDATE },
     ]
 
     /** @noSelf */
     public static updateCallbacks(status: boolean) {
+        MessageUtils.send("Updating callbacks");
+        MessageUtils.send(status ? "true" : "false");
         for (const callback of DamageTracker.currentCallbacks) {
             if (status) {
+                MessageUtils.send(`Adding callback ${callback.type} to ${callback.function}`);
                 cb.add(callback.type, callback.function);
             } else {
                 cb.remove(callback.type, callback.function);
@@ -77,9 +81,24 @@ class DamageTracker {
     }
 
     /** @noSelf */
-    public static gameUpdate(): void {
+    public static slowUpdate(): void {
+        MessageUtils.send("Game Update Callback called.");
         const heroesList = objManager.heroes.enemies.list;
         for (const hero of heroesList) {
+            if (!hero.asAIBase.isOnScreen) {
+                MessageUtils.send("Not on screen");
+                continue;
+            }
+            if (hero.asAIBase.isDead) {
+                MessageUtils.send("Dead");
+                continue;
+            }
+            
+            if (hero.asAIBase.isInvulnerable) {
+                MessageUtils.send("Invulnerable");
+                continue;
+            }
+
             if (!hero.asAIBase.isOnScreen || hero.asAIBase.isDead || hero.asAIBase.isInvulnerable) continue;
 
             let damage = damageLib.autoAttack(player, hero.asAIBase);
@@ -99,8 +118,8 @@ class DamageTracker {
         DamageTracker.menu.slider("x", "X", 10, -1000, 1000, 1).hide(true);
         DamageTracker.menu.slider("y", "Y", 30, -1000, 1000, 1).hide(true);
 
-        DamageTracker.updateCallbacks(status.value);
         DamageTracker.callbackPosition(list, list.value);
+        DamageTracker.updateCallbacks(status.value);
     }
 
     // Unload Utility functions and delete menu/callbacks

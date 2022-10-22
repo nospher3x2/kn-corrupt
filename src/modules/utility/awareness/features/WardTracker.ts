@@ -46,7 +46,7 @@ class WardTracker {
 
     /** @noSelf */
     public static currentCallbacks = [
-        { function: WardTracker.onDraw, type: ExtraCallbackLib.SLOW_UPDATE },
+        { function: WardTracker.onDraw, type: cb.draw },
         { function: WardTracker.onCreateObject, type: cb.create},
         { function: WardTracker.onDeleteObject, type: cb.delete},
         //{ function: WardTracker.onProcessSpell, type: cb.processSpell},
@@ -141,6 +141,7 @@ class WardTracker {
         const textColor = WardTracker.menu.getByKey("textColor").value;
 
         for (const ward of WardTracker.wardList) {
+            //TODO use rainbow checker expire timer, and use the color of the ward
             const radius = WardTracker.wardNames.find(wardName => wardName.name == ward.wardType)?.range as number;
             graphics.drawCircle(ward.position, radius, 2, circleColor);
             graphics.drawText(ward.wardType, 20, ward.position, textColor);

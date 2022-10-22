@@ -10,7 +10,7 @@ class DashTracker {
 
     /** @noSelf */
     public static currentCallbacks = [
-        { function: DashTracker.onDraw, type: ExtraCallbackLib.SLOW_UPDATE },
+        { function: DashTracker.onDraw, type: cb.draw },
         { function: DashTracker.onNewPath, type: cb.newPath },
     ]
 
@@ -60,7 +60,7 @@ class DashTracker {
         const type = DashTracker.menu.getByKey("info").value;
         const lineColor = DashTracker.menu.getByKey("lineColor").value;
         const textColor = DashTracker.menu.getByKey("textColor").value;
-        for (const dash of DashTracker.dashList) 
+        for (const dash of DashTracker.dashList)
         {
             const startPos = dash.path[0];
             const endPos = dash.path[dash.path.length - 1];

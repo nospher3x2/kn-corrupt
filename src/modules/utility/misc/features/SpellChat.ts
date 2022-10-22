@@ -1,5 +1,6 @@
 import ExtraCallbackLib from "../../../../core/libs/ExtraCallbackLib";
 import { Names } from "../../../../utils/Names";
+import { round } from "../../../../utils/Round";
 
 class SpellChat {
 
@@ -45,6 +46,11 @@ class SpellChat {
         { name: "SummonerBarrier", shortName: "b"},
     ];
 
+    public static longName(name : string) {
+        // TODO: find better way to do this.
+        return name.replace("S12_SummonerTeleport", "").replace("Summoner", "").replace("Upgrade", "");
+    }
+
     /** @noSelf */
     public static onProcessSpellCast(sender: AIBaseClient, castInfo: SpellCastInfo) {
         if (!sender.isEnemy) return;
@@ -58,8 +64,8 @@ class SpellChat {
             // current sdk does not support this
         }
         if (SpellChat.menu.getByKey("chat").value) {
-            const spellName = SpellChat.menu.getByKey("shortSpell").value ? spell.shortName : spell.name;
-            const heroName = SpellChat.menu.getByKey("shortHero").value ? Names.getShort(sender) : sender.skinHash;
+            const spellName = SpellChat.menu.getByKey("textOptions.shortSpell").value ? spell.shortName : SpellChat.longName(spell.name);
+            const heroName = SpellChat.menu.getByKey("textOptions.shortHero").value ? Names.getShort(sender) : sender.skinHash;
             const message = `${heroName} used ${spellName} ready in ${sender.getSpell(slot).cooldown} seconds`;
             chat.sendChat(message)
         }
@@ -70,33 +76,32 @@ class SpellChat {
         const keyStatus = SpellChat.menu.getByKey("key")
         if (keyStatus.value) {
             let message = "";
-            for (const hero of objManager.heroes.enemies.list) {
+            for (const hero of objManager.heroes.enemies.list) { // TODO: change to enemies
                 for (const slot of [SpellSlot.Summoner1, SpellSlot.Summoner2]) {
                     const spellInfo = hero.asAIBase.getSpell(slot);
                     const spell = SpellChat.validSpells.find((spell) => spell.name === spellInfo.name);
                     if (!spell) continue;
-                    if (SpellChat.menu.getByKey("flash").value && spell.name != "SummonerFlash") continue;
-                    const cooldown = spellInfo.cooldown; // não sei como sa porra ta formatada, espero q seja gametime
+                    if (SpellChat.menu.getByKey("textOptions.flash").value && spell.name != "SummonerFlash") continue;
+                    const cooldown = spellInfo.cooldown;
                     if (cooldown > 0) {
-                        const spellName = SpellChat.menu.getByKey("shortSpell").value ? spell.shortName : spellInfo.name;
-                        const heroName = SpellChat.menu.getByKey("shortHero").value ? Names.getShort(hero.asAIBase) : hero.asAIBase.skinHash;
-
-                        const totalSeconds = cooldown - game.time; // corrigir se estiver errado (espero q não)
+                        const spellName = SpellChat.menu.getByKey("textOptions.shortSpell").value ? spell.shortName : SpellChat.longName(spell.name);
+                        const heroName = SpellChat.menu.getByKey("textOptions.shortHero").value ? Names.getShort(hero.asAIBase) : hero.asAIBase.skinName;
+                        const totalSeconds = spellInfo.readyTime;
                         const minutes = Math.floor(totalSeconds / 60);
-                        const seconds = totalSeconds % 60;
+                        const seconds = round(totalSeconds % 60, 0);
                         const result = `${SpellChat.padTo2Digits(minutes)}:${SpellChat.padTo2Digits(seconds)}`;
 
-                        if (SpellChat.menu.getByKey("oneLine").value) {
+                        if (SpellChat.menu.getByKey("textOptions.oneLine").value) {
                             message += ` ${heroName} ${spellName} ${result}`;
                         } else {
                             const m2 = `${heroName} used ${spellName} ready in ${result} seconds`;
-                            SpellChat.menu.getByKey("fake").value ? chat.sendChat(m2) : chat.showChat(m2);
+                            SpellChat.menu.getByKey("textOptions.fake").value ? chat.showChat(m2) : chat.sendChat(m2);
                         }
                     }
                 }
             }
             if (message.length > 0) {
-                SpellChat.menu.getByKey("fake").value ? chat.sendChat(message) : chat.showChat(message);
+                SpellChat.menu.getByKey("textOptions.fake").value ? chat.showChat(message) : chat.sendChat(message);
             }
             keyStatus.set(false);
         }
@@ -108,23 +113,23 @@ class SpellChat {
         const status = SpellChat.menu.boolean("status", "Enabled", false, SpellChat.callbackMenu);
         status.tooltip("Send spells cooldown in chat.");
 
-        SpellChat.menu.spacer("spacer0", "Text Options");
+        const textOptions = SpellChat.menu.header("textOptions", "Text Options");
 
-        const oneLine = SpellChat.menu.boolean("oneLine", "One Line", false);
+        const oneLine = textOptions.boolean("oneLine", "One Line", true);
         oneLine.tooltip("Send spells cooldown in one line. (e.g. Kat f 3:50 Lux h 2:30)");
 
-        const shortSpell = SpellChat.menu.boolean("shortSpell", "Spell Short Name", true);
+        const shortSpell = textOptions.boolean("shortSpell", "Spell Short Name", true);
         shortSpell.tooltip("Send short name of the spell. (e.g. f for flash)");
 
-        const shortHero = SpellChat.menu.boolean("shortHero", "Hero Short Name", true);
+        const shortHero = textOptions.boolean("shortHero", "Hero Short Name", true);
         shortHero.tooltip("Send short name of the hero. (e.g. Kat for Katarina)");
 
-        const flash = SpellChat.menu.boolean("flash", "Only Flash", false);
+        const flash = textOptions.boolean("flash", "Only Flash", false);
         flash.tooltip("Only send flash spell in chat.");
 
-        SpellChat.menu.boolean("fake", "Fake chat", false);
+        textOptions.boolean("fake", "Fake chat", false);
 
-        const imp = SpellChat.menu.boolean("imprecise", "Imprecise Values", false);
+        const imp = textOptions.boolean("imprecise", "Imprecise Values", false);
         imp.tooltip("Use imprecise values for cooldowns. (e.g. 1:40 instead of 1:45)");
 
         SpellChat.menu.spacer("spacer1", "Automatic");
@@ -135,7 +140,7 @@ class SpellChat {
 
         SpellChat.menu.spacer("spacer2", "Manual");
 
-        SpellChat.menu.keybind("key", "Keybind", "F3", false, true);
+        SpellChat.menu.keybind("key", "Keybind", "F3", true, true);
         SpellChat.menu.boolean("pingManual", "Ping Instead ^^", false);
         const clickHud = SpellChat.menu.boolean("hud", "Click Hud", false);
         clickHud.tooltip("Click Hud to send spells cooldown in chat.");

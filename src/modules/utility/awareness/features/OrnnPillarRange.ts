@@ -5,7 +5,7 @@ class OrnnPillar {
 
     /** @noSelf */
     public static currentCallbacks = [
-        { function: OrnnPillar.onDraw, type: ExtraCallbackLib.SLOW_UPDATE },
+        { function: OrnnPillar.onDraw, type: cb.draw },
         { function: OrnnPillar.onCreateObject, type: cb.create},
         { function: OrnnPillar.onDeleteObject, type: cb.delete},
     ]

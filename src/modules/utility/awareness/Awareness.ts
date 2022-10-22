@@ -13,8 +13,8 @@ class Awareness {
         StasisTracker,
         CloneTracker,
         PathTracker,
-        DamageTracker,
-        OrnnPillar
+        OrnnPillar,
+        DamageTracker
     ]
 
     public load = (menu: Menu) => {
